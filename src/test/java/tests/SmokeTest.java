@@ -3,10 +3,7 @@ package tests;
 import baseEntities.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.CheckoutPage;
-import pages.LoginPage;
-import pages.ProductsPage;
-import pages.ShoppingCartPage;
+import pages.*;
 
 public class SmokeTest extends BaseTest {
 
@@ -142,14 +139,16 @@ public class SmokeTest extends BaseTest {
         productsPage.clickCartBadge();
         ShoppingCartPage shoppingCart = new ShoppingCartPage(driver, false);
         shoppingCart.clickCheckoutButton();
-        CheckoutPage checkoutPage = new CheckoutPage(driver, false);
-        checkoutPage.setFirstNameInput();
-        checkoutPage.setLastNameInput();
-        checkoutPage.setZipcodeInput();
-        checkoutPage.clickContinueButton();
-        Assert.assertEquals(checkoutPage.displayOverviewMessage(), "CHECKOUT: OVERVIEW");
-        checkoutPage.clickFinishButton();
-        Assert.assertEquals(checkoutPage.displayCompletionMessage(), "THANK YOU FOR YOUR ORDER");
+        CheckoutInfoPage checkoutInfoPage = new CheckoutInfoPage(driver, false);
+        checkoutInfoPage.setFirstNameInput();
+        checkoutInfoPage.setLastNameInput();
+        checkoutInfoPage.setZipcodeInput();
+        checkoutInfoPage.clickContinueButton();
+        CheckoutOverviewPage checkoutOverviewPage = new CheckoutOverviewPage(driver,false);
+        Assert.assertEquals(checkoutOverviewPage.displayOverviewMessage(), "CHECKOUT: OVERVIEW");
+        checkoutOverviewPage.clickFinishButton();
+        CheckoutCompletionPage checkoutCompletionPage = new CheckoutCompletionPage(driver,false);
+        Assert.assertEquals(checkoutCompletionPage.displayCompletionMessage(), "THANK YOU FOR YOUR ORDER");
     }
 
     @Test
@@ -163,12 +162,12 @@ public class SmokeTest extends BaseTest {
         productsPage.clickCartBadge();
         ShoppingCartPage shoppingCart = new ShoppingCartPage(driver, false);
         shoppingCart.clickCheckoutButton();
-        CheckoutPage checkoutPage = new CheckoutPage(driver, false);
-        checkoutPage.getFirstName().sendKeys("");
-        checkoutPage.setLastNameInput();
-        checkoutPage.setZipcodeInput();
-        checkoutPage.clickContinueButton();
-        Assert.assertEquals(checkoutPage.displayErrorButtonMessage(), "Error: First Name is required");
+        CheckoutInfoPage checkoutInfoPage = new CheckoutInfoPage(driver, false);
+        checkoutInfoPage.getFirstName().sendKeys("");
+        checkoutInfoPage.setLastNameInput();
+        checkoutInfoPage.setZipcodeInput();
+        checkoutInfoPage.clickContinueButton();
+        Assert.assertEquals(checkoutInfoPage.displayErrorButtonMessage(), "Error: First Name is required");
     }
 }
 
