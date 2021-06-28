@@ -13,7 +13,7 @@ public class CheckoutCompletionPage extends BasePage {
 
     @Override
     protected void openPage() {
-        driver.get("https://www.saucedemo.com/");
+        driver.get("https://www.saucedemo.com/checkout-complete.html");
     }
 
     @Override

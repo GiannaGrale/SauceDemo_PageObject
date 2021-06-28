@@ -7,15 +7,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class ProductsPage extends BasePage {
+    private final static String endpoint = "inventory.html";
 
     private final static By title_Label_By = By.className("title");
     private final static By item_Add_To_Cart_By = By.id("add-to-cart-sauce-labs-backpack");
     private final static By cart_Items_Number_By = By.className("shopping_cart_badge");
     private final static By cart_Badge_By = By.className("shopping_cart_container");
 
+
     @Override
     protected void openPage() {
-        driver.get("https://www.saucedemo.com/");
+        driver.get(properties.getURL() + endpoint);
     }
 
     @Override

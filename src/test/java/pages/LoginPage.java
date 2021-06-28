@@ -21,7 +21,7 @@ public class LoginPage extends BasePage {
 
     @Override
     protected void openPage() {
-        driver.get("https://www.saucedemo.com/");
+       driver.get(properties.getURL());
     }
 
     @Override
