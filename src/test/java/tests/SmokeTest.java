@@ -87,6 +87,18 @@ public class SmokeTest extends BaseTest {
         Assert.assertEquals(new ProductsPage(driver, false).displayAddButtonMessage("Sauce Labs Backpack"), "add to cart");
     }
 
+    //When item is removed, class "removed_cart_item" appears. Here we check its existence.
+    @Test
+    public void positiveHomeTaskRemoveFromCartTest2() {
+        LoginStep loginStep = new LoginStep(driver);
+        loginStep.login(properties.getUsername(), properties.getPassword());
+        OrderStep orderStep = new OrderStep(driver);
+        orderStep.addProduct("Sauce Labs Backpack");
+        ShoppingCartPage shoppingCartPage = new ShoppingCartPage(driver, true);
+        orderStep.removeProduct("Sauce Labs Backpack");
+        Assert.assertTrue(shoppingCartPage.getRemovedCartItemIdentifier().isEnabled());
+    }
+
     @Test
     public void positiveHomeTaskCheckoutTest1() {
         LoginStep loginStep = new LoginStep(driver);

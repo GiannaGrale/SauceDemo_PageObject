@@ -79,4 +79,3 @@ public class CheckoutInfoPage extends BasePage {
         return  getErrorButton().getText();
     }
 }
-

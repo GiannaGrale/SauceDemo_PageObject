@@ -80,4 +80,3 @@ public class ShoppingCartPage extends BasePage {
         getCheckoutButton().click();
     }
 }
-

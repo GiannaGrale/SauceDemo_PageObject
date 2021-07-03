@@ -14,7 +14,6 @@ public class ReadProperties {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public String getURL() { return properties.getProperty("url");}

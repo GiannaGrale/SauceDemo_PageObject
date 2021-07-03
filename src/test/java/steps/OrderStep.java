@@ -18,6 +18,10 @@ public class OrderStep extends BaseStep {
         productsPage.addItemToCart(productName);
         productsPage.clickCartBadge();
     }
+    public void removeProduct(String productName){
+        ShoppingCartPage shoppingCartPage = new ShoppingCartPage(driver, true);
+        shoppingCartPage.clickRemoveButton(productName);
+    }
 
     public void removeProductAndContinueShopping(String productName) {
         ShoppingCartPage shoppingCartPage = new ShoppingCartPage(driver, true);

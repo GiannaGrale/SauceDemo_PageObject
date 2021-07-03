@@ -46,4 +46,3 @@ public class CheckoutOverviewPage extends BasePage {
         getFinishButton().click();
     }
 }
-
