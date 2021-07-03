@@ -7,18 +7,18 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class ShoppingCartPage extends BasePage {
+    private final static String endpoint = "cart.html";
 
     private final static By cart_Quantity_Identifier_By = By.className("cart_quantity");
     private final static By cart_Added_Item_Price_By = By.className("inventory_item_price");
-    private final static By cart_Remove_Item_By = By.id("remove-sauce-labs-backpack");
+    private final static String cart_item_Remove_Button = "//div[.='replace']/following::div[@class='item_pricebar']//button";
     private final static By cart_Continue_Shopping_Button_By = By.id("continue-shopping");
     private final static By cart_Removed_Item_Identifier_By = By.className("removed_cart_item");
     private final static By cart_Checkout_Button_By = By.id("checkout");
 
-
     @Override
     protected void openPage() {
-        driver.get("https://www.saucedemo.com/cart.html");
+        driver.get(properties.getURL() + endpoint);
     }
 
     @Override
@@ -42,8 +42,8 @@ public class ShoppingCartPage extends BasePage {
         return driver.findElement(cart_Added_Item_Price_By);
     }
 
-    public WebElement getRemoveItemButton() {
-        return driver.findElement(cart_Remove_Item_By);
+    public WebElement getRemoveItemButton(String productName) {
+        return driver.findElement(By.xpath(cart_item_Remove_Button.replace("replace", productName)));
     }
 
     public WebElement getContinueShoppingButton() {
@@ -54,8 +54,8 @@ public class ShoppingCartPage extends BasePage {
         return driver.findElement(cart_Removed_Item_Identifier_By);
     }
 
-    public  WebElement getCheckoutButton (){
-        return  driver.findElement(cart_Checkout_Button_By);
+    public WebElement getCheckoutButton() {
+        return driver.findElement(cart_Checkout_Button_By);
     }
 
 
@@ -68,17 +68,16 @@ public class ShoppingCartPage extends BasePage {
         return getPriceOfAddedItem().getText();
     }
 
-    public void clickRemoveButton() {
-        getRemoveItemButton().click();
+    public void clickRemoveButton(String productName) {
+        getRemoveItemButton(productName).click();
     }
 
     public void clickContinueShoppingButton() {
         getContinueShoppingButton().click();
     }
 
-    public void clickCheckoutButton (){
+    public void clickCheckoutButton() {
         getCheckoutButton().click();
     }
-
 }
 

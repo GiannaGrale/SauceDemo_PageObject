@@ -8,12 +8,13 @@ import org.openqa.selenium.WebElement;
 
 
 public class CheckoutCompletionPage extends BasePage {
+    private final static String endpoint = "checkout-complete.html";
 
     private final static By checkout_Completion_By = By.className("complete-header");
 
     @Override
     protected void openPage() {
-        driver.get("https://www.saucedemo.com/checkout-complete.html");
+        driver.get(properties.getURL() + endpoint);
     }
 
     @Override
@@ -33,7 +34,7 @@ public class CheckoutCompletionPage extends BasePage {
         return driver.findElement(checkout_Completion_By);
     }
 
-     //atomic methods
+    //atomic methods
     public String displayCompletionMessage() {
         return getCompletionTitle().getText();
     }

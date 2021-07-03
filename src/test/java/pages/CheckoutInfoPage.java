@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class CheckoutInfoPage extends BasePage {
+    private final static String endpoint = "checkout-step-one.html";
 
     private final static By checkout_Title_Label_By = By.xpath("//div/span[@class ='title']");
     private final static By checkout_First_Name_By = By.id("first-name");
@@ -17,7 +18,7 @@ public class CheckoutInfoPage extends BasePage {
 
     @Override
     protected void openPage() {
-        driver.get("https://www.saucedemo.com/checkout-step-one.html");
+        driver.get(properties.getURL()+endpoint);
     }
 
     @Override
@@ -58,16 +59,16 @@ public class CheckoutInfoPage extends BasePage {
     }
 
     //atomic methods
-    public void setFirstNameInput() {
-        getFirstName().sendKeys("Name");
+    public void setFirstNameInput(String firstNameInput) {
+        getFirstName().sendKeys(firstNameInput);
     }
 
-    public void setLastNameInput() {
-        getLastName().sendKeys("Surname");
+    public void setLastNameInput(String lastNameInput) {
+        getLastName().sendKeys(lastNameInput);
     }
 
-    public void setZipcodeInput() {
-        getZipcode().sendKeys("00001");
+    public void setZipcodeInput(String zipcodeInput) {
+        getZipcode().sendKeys(zipcodeInput);
     }
 
     public void clickContinueButton() {

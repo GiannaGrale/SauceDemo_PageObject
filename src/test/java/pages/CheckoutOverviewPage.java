@@ -7,13 +7,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class CheckoutOverviewPage extends BasePage {
+    private final static String endpoint = "checkout-step-two.html";
 
     private final static By checkout_Overview_Title_By = By.xpath("//span[@class ='title']");
     private final static By checkout_Finish_By = By.id("finish");
 
     @Override
     protected void openPage() {
-        driver.get("https://www.saucedemo.com/checkout-step-two.html");
+        driver.get(properties.getURL() + endpoint);
     }
 
     @Override
@@ -33,7 +34,7 @@ public class CheckoutOverviewPage extends BasePage {
         return driver.findElement(checkout_Overview_Title_By);
     }
 
-    public WebElement getFinishButton(){
+    public WebElement getFinishButton() {
         return driver.findElement(checkout_Finish_By);
     }
 
@@ -41,7 +42,7 @@ public class CheckoutOverviewPage extends BasePage {
         return getOverviewMessage().getText().toUpperCase();
     }
 
-    public void clickFinishButton(){
+    public void clickFinishButton() {
         getFinishButton().click();
     }
 }
