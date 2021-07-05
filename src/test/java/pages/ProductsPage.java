@@ -10,10 +10,9 @@ public class ProductsPage extends BasePage {
     private final static String endpoint = "inventory.html";
 
     private final static By title_Label_By = By.className("title");
-    private final static By item_Add_To_Cart_By = By.id("add-to-cart-sauce-labs-backpack");
+    private final static String item_Add_To_Cart_Button = "//div[.='replace']/ancestor::div[@class= 'inventory_item_description']//button";
     private final static By cart_Items_Number_By = By.className("shopping_cart_badge");
     private final static By cart_Badge_By = By.className("shopping_cart_container");
-
 
     @Override
     protected void openPage() {
@@ -41,10 +40,6 @@ public class ProductsPage extends BasePage {
         return getTitleLabel().getText();
     }
 
-    public WebElement getItemAddToCart() {
-        return driver.findElement(item_Add_To_Cart_By);
-    }
-
     public WebElement getNumberCartItems() {
         return driver.findElement(cart_Items_Number_By);
     }
@@ -53,16 +48,21 @@ public class ProductsPage extends BasePage {
         return driver.findElement(cart_Badge_By);
     }
 
+    public WebElement getItemAddToCartButton(String productName) {
+        return driver.findElement(By.xpath(item_Add_To_Cart_Button.replace("replace", productName)));
+    }
+
     //atomic methods
-    public void addItemToCart() {
-        getItemAddToCart().click();
+
+    public void addItemToCart(String productName) {
+        getItemAddToCartButton(productName).click();
     }
 
     public void clickCartBadge() {
         getCartBadge().click();
     }
 
-    public String displayAddButtonMessage(){
-        return  getItemAddToCart().getText().toLowerCase();
+    public String displayAddButtonMessage(String productName) {
+        return getItemAddToCartButton(productName).getText().toLowerCase();
     }
 }
