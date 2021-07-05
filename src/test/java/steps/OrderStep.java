@@ -2,8 +2,6 @@ package steps;
 
 import baseEntities.BaseStep;
 import org.openqa.selenium.WebDriver;
-import pages.CheckoutInfoPage;
-import pages.CheckoutOverviewPage;
 import pages.ProductsPage;
 import pages.ShoppingCartPage;
 
