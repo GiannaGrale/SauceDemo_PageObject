@@ -1,0 +1,10 @@
+{
+  "id": 16,
+  "name": "Updated Anna's project",
+  "announcement": "some updated description",
+  "show_announcement": false,
+  "is_completed": true,
+  "completed_on": 1625578641,
+  "suite_mode": 1,
+  "url": "https://aqa06onl01.testrail.io/index.php?/projects/overview/16"
+}
