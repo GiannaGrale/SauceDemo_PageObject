@@ -11,6 +11,7 @@ public class ReadProperties {
 
         try {
             properties.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
+            properties.load(getClass().getClassLoader().getResourceAsStream("testdata.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }

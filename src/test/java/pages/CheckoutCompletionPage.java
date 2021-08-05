@@ -5,12 +5,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 
 public class CheckoutCompletionPage extends BasePage {
     private final static String endpoint = "checkout-complete.html";
 
-    private final static By checkout_Completion_By = By.className("complete-header");
+    @FindBy(className = "complete-header")
+    public WebElement checkCompletion;
 
     @Override
     protected void openPage() {
@@ -20,7 +22,7 @@ public class CheckoutCompletionPage extends BasePage {
     @Override
     public boolean isPageOpened() {
         try {
-            return getCompletionTitle().isDisplayed();
+            return checkCompletion.isDisplayed();
         } catch (NoSuchElementException ex) {
             return false;
         }
@@ -30,12 +32,8 @@ public class CheckoutCompletionPage extends BasePage {
         super(driver, openPageByURL);
     }
 
-    public WebElement getCompletionTitle() {
-        return driver.findElement(checkout_Completion_By);
-    }
-
     //atomic methods
     public String displayCompletionMessage() {
-        return getCompletionTitle().getText();
+        return checkCompletion.getText();
     }
 }

@@ -1,16 +1,19 @@
 package pages;
 
 import baseEntities.BasePage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class CheckoutOverviewPage extends BasePage {
     private final static String endpoint = "checkout-step-two.html";
 
-    private final static By checkout_Overview_Title_By = By.xpath("//span[@class ='title']");
-    private final static By checkout_Finish_By = By.id("finish");
+    @FindBy(xpath ="//span[@class ='title']")
+    public WebElement checkoutOverviewTitle;
+
+    @FindBy(id = "finish")
+    public WebElement checkoutFinish;
 
     @Override
     protected void openPage() {
@@ -20,7 +23,7 @@ public class CheckoutOverviewPage extends BasePage {
     @Override
     public boolean isPageOpened() {
         try {
-            return getOverviewMessage().isDisplayed();
+            return checkoutOverviewTitle.isDisplayed();
         } catch (NoSuchElementException ex) {
             return false;
         }
@@ -30,19 +33,10 @@ public class CheckoutOverviewPage extends BasePage {
         super(driver, openPageByURL);
     }
 
-    public WebElement getOverviewMessage() {
-        return driver.findElement(checkout_Overview_Title_By);
-    }
+    public String displayOverviewMessage() { return checkoutOverviewTitle.getText().toUpperCase(); }
 
-    public WebElement getFinishButton() {
-        return driver.findElement(checkout_Finish_By);
-    }
-
-    public String displayOverviewMessage() {
-        return getOverviewMessage().getText().toUpperCase();
-    }
-
-    public void clickFinishButton() {
-        getFinishButton().click();
+    public CheckoutCompletionPage overviewOrder (){
+        checkoutFinish.click();
+        return  new CheckoutCompletionPage (driver, true);
     }
 }

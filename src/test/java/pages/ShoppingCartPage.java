@@ -5,16 +5,27 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class ShoppingCartPage extends BasePage {
     private final static String endpoint = "cart.html";
 
-    private final static By cart_Quantity_Identifier_By = By.className("cart_quantity");
-    private final static By cart_Added_Item_Price_By = By.className("inventory_item_price");
-    private final static String cart_item_Remove_Button = "//div[.='replace']/following::div[@class='item_pricebar']//button";
-    private final static By cart_Continue_Shopping_Button_By = By.id("continue-shopping");
-    private final static By cart_Removed_Item_Identifier_By = By.className("removed_cart_item");
-    private final static By cart_Checkout_Button_By = By.id("checkout");
+    @FindBy(className = "cart_quantity")
+    public WebElement cartQuantityIdentifier;
+
+    @FindBy(className = "inventory_item_price")
+    public WebElement cartAddedItemPrice;
+
+    @FindBy(id = "continue-shopping")
+    public WebElement cartContinueShoppingButton;
+
+    @FindBy(className = "removed_cart_item")
+    public WebElement cartRemovedItemIdentifier;
+
+    @FindBy(id = "checkout")
+    public WebElement cartCheckoutButton;
+
+    public String cartItemRemoveButton= "//div[.='replace']/following::div[@class='item_pricebar']//button";
 
     @Override
     protected void openPage() {
@@ -24,7 +35,7 @@ public class ShoppingCartPage extends BasePage {
     @Override
     public boolean isPageOpened() {
         try {
-            return getCartQuantityIdentifier().isDisplayed();
+            return cartQuantityIdentifier.isDisplayed();
         } catch (NoSuchElementException e) {
             return false;
         }
@@ -34,49 +45,30 @@ public class ShoppingCartPage extends BasePage {
         super(driver, openPageByURL);
     }
 
-    public WebElement getCartQuantityIdentifier() {
-        return driver.findElement(cart_Quantity_Identifier_By);
-    }
-
-    public WebElement getPriceOfAddedItem() {
-        return driver.findElement(cart_Added_Item_Price_By);
-    }
 
     public WebElement getRemoveItemButton(String productName) {
-        return driver.findElement(By.xpath(cart_item_Remove_Button.replace("replace", productName)));
+        return driver.findElement(By.xpath(cartItemRemoveButton.replace("replace", productName)));
     }
-
-    public WebElement getContinueShoppingButton() {
-        return driver.findElement(cart_Continue_Shopping_Button_By);
-    }
-
-    public WebElement getRemovedCartItemIdentifier() {
-        return driver.findElement(cart_Removed_Item_Identifier_By);
-    }
-
-    public WebElement getCheckoutButton() {
-        return driver.findElement(cart_Checkout_Button_By);
-    }
-
 
     //atomic methods
-    public String displayQuantityText() {
-        return getCartQuantityIdentifier().getText();
-    }
-
     public String displayTextPriceOfAddedItemInCart() {
-        return getPriceOfAddedItem().getText();
+        return cartAddedItemPrice.getText();
     }
 
-    public void clickRemoveButton(String productName) {
+
+    public ProductsPage removeAndBackToShopping (String productName){
         getRemoveItemButton(productName).click();
+        cartContinueShoppingButton.click();
+        return new ProductsPage(driver, true);
     }
 
-    public void clickContinueShoppingButton() {
-        getContinueShoppingButton().click();
+    public CheckoutInfoPage continueCheckoutProcess (){
+        cartCheckoutButton.click();
+        return new CheckoutInfoPage(driver, true);
     }
 
-    public void clickCheckoutButton() {
-        getCheckoutButton().click();
+    public ShoppingCartPage removeProduct (String productName){
+        getRemoveItemButton(productName).click();
+        return this;
     }
 }

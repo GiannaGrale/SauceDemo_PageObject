@@ -11,21 +11,29 @@ public class OrderStep extends BaseStep {
     public OrderStep(WebDriver driver) {
         super(driver);
     }
+
     @Step("Add a '{productName}' to the cart")
-    public void addProduct(String productName) {
+    public ProductsPage addProduct(String productName) {
         ProductsPage productsPage = new ProductsPage(driver, true);
-        productsPage.addItemToCart(productName);
-        productsPage.clickCartBadge();
+        productsPage.getItemAddToCartButton(productName);
+        productsPage.cartBadge.click();
+        return new ProductsPage (driver, true);
     }
+
     @Step("Remove a '{productName}' to the cart")
-    public void removeProduct(String productName){
+    public ShoppingCartPage removeProduct(String productName){
         ShoppingCartPage shoppingCartPage = new ShoppingCartPage(driver, true);
-        shoppingCartPage.clickRemoveButton(productName);
+        shoppingCartPage.getRemoveItemButton(productName).click();
+
+        return  new ShoppingCartPage(driver, true);
     }
+
     @Step("Remove a '{productName}' and continue shopping")
-    public void removeProductAndContinueShopping(String productName) {
+    public ShoppingCartPage removeProductAndContinueShopping(String productName) {
         ShoppingCartPage shoppingCartPage = new ShoppingCartPage(driver, true);
-        shoppingCartPage.clickRemoveButton(productName);
-        shoppingCartPage.clickContinueShoppingButton();
+        shoppingCartPage.getRemoveItemButton(productName).click();
+        shoppingCartPage.cartContinueShoppingButton.click();
+
+        return  new ShoppingCartPage(driver, false);
     }
 }
