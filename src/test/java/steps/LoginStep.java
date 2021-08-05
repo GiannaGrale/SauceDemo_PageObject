@@ -13,21 +13,19 @@ public class LoginStep extends BaseStep {
     }
 
     @Step("Log into system with credentials '{username}', '{password}'")
-    public ProductsPage loginWithCorrectCredentials(String username, String password) {
+    public void loginWithCorrectCredentials(String username, String password) {
         LoginPage loginPage = new LoginPage(driver, true);
         loginPage.usernameInput.sendKeys(username);
         loginPage.passwordInput.sendKeys(password);
         loginPage.loginButton.click();
-        return new ProductsPage(driver, true);
     }
 
     @Step
-    public LoginPage loginWithInCorrectCredentials(String username, String password) {
+    public void loginWithInCorrectCredentials(String username, String password) {
         LoginPage loginPage = new LoginPage(driver, true);
         loginPage.usernameInput.sendKeys(username);
         loginPage.passwordInput.sendKeys(password);
         loginPage.loginButton.click();
-        return new LoginPage(driver, false);
     }
 
 }
