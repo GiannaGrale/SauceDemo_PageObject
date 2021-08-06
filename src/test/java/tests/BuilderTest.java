@@ -17,16 +17,16 @@ public class BuilderTest extends BaseTest {
     @Feature("Checkout")
     @Test(description = "An attempt to checkout with valid form data")
     public void positiveHomeTaskCheckoutTest() {
-        Login login = new Login.Builder()
+        Login login = Login.newBuilder()
                 .withLogin("standard_user")
                 .withPassword("secret_sauce")
                 .build();
 
-        Product product = new Product.Builder()
+        Product product = Product.newBuilder()
                 .withProduct("Sauce Labs Backpack")
                 .build();
 
-        NewCustomer newCustomer = new NewCustomer.Builder()
+        NewCustomer newCustomer = NewCustomer.newBuilder()
                 .withFirstName("Name")
                 .withLastName("Surname")
                 .withZipcode("34567")

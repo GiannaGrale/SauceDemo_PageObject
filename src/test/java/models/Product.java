@@ -3,8 +3,7 @@ package models;
 public class Product {
     String productName;
 
-    public Product(Builder builder) {
-        this.productName = builder.productName;
+    private Product( ) {
     }
 
     public String getProductName() {
@@ -12,23 +11,22 @@ public class Product {
     }
 
 
-    public static final class Builder {
-        private String productName;
+    public static  Builder newBuilder (){
+        return new Product().new Builder();
+    }
 
-        public Builder() {
-        }
+    public  class Builder {
 
-        public Builder(Product origin) {
-            this.productName = origin.productName;
+        private Builder() {
         }
 
         public Builder withProduct(String productName) {
-            this.productName = productName;
+            Product.this.productName = productName;
             return this;
         }
 
         public Product build() {
-            return new Product(this);
+            return Product.this;
         }
     }
 }

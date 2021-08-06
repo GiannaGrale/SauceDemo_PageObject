@@ -5,10 +5,7 @@ public class NewCustomer {
     String lastName;
     String zipcode;
 
-    public NewCustomer(Builder builder) {
-        this.firstName = builder.firstName;
-        this.lastName = builder.lastName;
-        this.zipcode = builder.zipcode;
+    private NewCustomer() {
     }
 
     public String getFirstName() {
@@ -23,37 +20,33 @@ public class NewCustomer {
         return zipcode;
     }
 
-    public static final class Builder {
-        private String firstName;
-        private String lastName;
-        private String zipcode;
 
-        public Builder() {
-        }
+    public static Builder newBuilder() {
+        return new NewCustomer().new Builder();
+    }
 
-        public Builder(NewCustomer origin) {
-            this.firstName = origin.firstName;
-            this.lastName = origin.lastName;
-            this.zipcode = origin.zipcode;
+    public class Builder {
+
+        private Builder() {
         }
 
         public Builder withFirstName(String firstName) {
-            this.firstName = firstName;
+            NewCustomer.this.firstName = firstName;
             return this;
         }
 
         public Builder withLastName(String lastName) {
-            this.lastName = lastName;
+            NewCustomer.this.lastName = lastName;
             return this;
         }
 
         public Builder withZipcode(String zipcode) {
-            this.zipcode = zipcode;
+            NewCustomer.this.zipcode = zipcode;
             return this;
         }
 
         public NewCustomer build() {
-            return new NewCustomer(this);
+            return NewCustomer.this;
         }
     }
 }

@@ -4,9 +4,7 @@ public class Login {
     private String login;
     private String password;
 
-    public Login(Builder builder) {
-        this.login = builder.login;
-        this.password = builder.password;
+    private Login() {
     }
 
     public String getLogin() {
@@ -17,30 +15,27 @@ public class Login {
         return password;
     }
 
-    public static final class Builder {
-        private String login;
-        private String password;
+    public static Builder newBuilder() {
+        return new Login().new Builder();
+    }
 
-        public Builder() {
-        }
+    public class Builder {
 
-        public Builder(Login origin) {
-            this.login = origin.login;
-            this.password = origin.password;
+        private Builder() {
         }
 
         public Builder withLogin(String login) {
-            this.login = login;
+            Login.this.login = login;
             return this;
         }
 
         public Builder withPassword(String password) {
-            this.password = password;
+            Login.this.password = password;
             return this;
         }
 
         public Login build() {
-            return new Login(this);
+            return Login. this;
         }
     }
 }
