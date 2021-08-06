@@ -31,12 +31,15 @@ public class CheckoutOverviewPage extends BasePage {
 
     public CheckoutOverviewPage(WebDriver driver, boolean openPageByURL) {
         super(driver, openPageByURL);
+        pageLogger.debug("The constructor worked successfully...");
     }
 
     public String displayOverviewMessage() { return checkoutOverviewTitle.getText().toUpperCase(); }
 
     public CheckoutCompletionPage overviewOrder (){
+        pageLogger.debug("Initialization of overviewOrder");
         checkoutFinish.click();
+        pageLogger.debug("Finish of overviewOrder");
         return  new CheckoutCompletionPage (driver, true);
     }
 }

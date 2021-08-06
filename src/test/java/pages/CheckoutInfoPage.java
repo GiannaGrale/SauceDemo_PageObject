@@ -1,7 +1,6 @@
 package pages;
 
 import baseEntities.BasePage;
-import models.Customer;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,7 +27,6 @@ public class CheckoutInfoPage extends BasePage {
     @FindBy(className = "error-message-container")
     public WebElement checkoutErrorButton;
 
-
     @Override
     protected void openPage() {
         driver.get(properties.getURL() + endpoint);
@@ -45,32 +43,35 @@ public class CheckoutInfoPage extends BasePage {
 
     public CheckoutInfoPage(WebDriver driver, boolean openPageByURL) {
         super(driver, openPageByURL);
+        pageLogger.debug("The constructor worked successfully...");
     }
 
     public String displayErrorButtonMessage() { return checkoutErrorButton.getText(); }
 
     public CheckoutOverviewPage fillInFormsWithRightInfo(String firstName, String lastName, String zipCode){
+        pageLogger.debug("Initialization of fillInFormsWithRightInfo");
+        pageLogger.debug("Input of "+ firstName);
         checkoutFirstName.sendKeys(firstName);
+        pageLogger.debug("Input of "+ lastName);
         checkoutLastName.sendKeys(lastName);
+        pageLogger.debug("Input of "+ zipCode);
         checkoutZipCode.sendKeys(zipCode);
         checkoutContinueButton.click();
-        return  new  CheckoutOverviewPage (driver, true);
+        pageLogger.debug("Finish of fillInFormsWithRightInfo");
+        return new CheckoutOverviewPage (driver, true);
     }
-
 
     public CheckoutInfoPage fillInFormsWithWrongInfo(String firstName, String lastName, String zipCode){
+        pageLogger.debug("Initialization of fillInFormsWithWrongInfo");
+        pageLogger.debug("Input of "+ firstName);
         checkoutFirstName.sendKeys(firstName);
+        pageLogger.debug("Input of "+ lastName);
         checkoutLastName.sendKeys(lastName);
+        pageLogger.debug("Input of "+ zipCode);
         checkoutZipCode.sendKeys(zipCode);
         checkoutContinueButton.click();
-        return  this;
-    }
-    public CheckoutInfoPage fillInForms(Customer customer){
-        checkoutFirstName.sendKeys(customer.getFirstName());
-        checkoutLastName.sendKeys(customer.getLastName());
-        checkoutZipCode.sendKeys(customer.getZipcode());
-        checkoutContinueButton.click();
-        return  this;
+        pageLogger.debug("Finish of fillInFormsWithWrongInfo");
+        return this;
     }
 }
 

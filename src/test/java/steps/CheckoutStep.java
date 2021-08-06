@@ -9,9 +9,11 @@ import pages.ShoppingCartPage;
 
 
 public class CheckoutStep extends BaseStep {
+
     public CheckoutStep(WebDriver driver) {
         super(driver);
     }
+
     @Step("Click to proceed with the checkout")
     public void continueCheckoutProcess() {
         ShoppingCartPage shoppingCartPage = new ShoppingCartPage(driver, true);

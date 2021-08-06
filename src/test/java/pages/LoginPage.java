@@ -1,7 +1,6 @@
 package pages;
 
 import baseEntities.BasePage;
-import models.Customer;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -24,6 +23,7 @@ public class LoginPage extends BasePage {
 
     public LoginPage(WebDriver driver, boolean openPageByURL) {
         super(driver, openPageByURL);
+        pageLogger.debug("The constructor worked successfully...");
     }
 
     @Override
@@ -41,16 +41,23 @@ public class LoginPage extends BasePage {
     }
 
     public LoginPage loginWithIncorrectCredentials(String username, String password){
+        pageLogger.debug("initialization of loginWithIncorrectCredentials");
+        pageLogger.debug("Set login " + username);
         usernameInput.sendKeys(username);
         passwordInput.sendKeys(password);
         loginButton.click();
+        pageLogger.debug("Finish of loginWithIncorrectCredentials");
         return new LoginPage(driver, false);
     }
 
     public ProductsPage loginWithCorrectCredentials (String username, String password){
+        pageLogger.debug("initialization of loginWithIncorrectCredentials");
+        pageLogger.debug("Set login " + username);
         usernameInput.sendKeys(username);
         passwordInput.sendKeys(password);
         loginButton.click();
+        pageLogger.debug("Finish of loginWithIncorrectCredentials");
         return new ProductsPage(driver, true);
     }
+
 }

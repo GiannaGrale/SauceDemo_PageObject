@@ -1,7 +1,6 @@
 package pages;
 
 import baseEntities.BasePage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -30,6 +29,7 @@ public class CheckoutCompletionPage extends BasePage {
 
     public CheckoutCompletionPage(WebDriver driver, boolean openPageByURL) {
         super(driver, openPageByURL);
+        pageLogger.debug("The constructor worked successfully...");
     }
 
     //atomic methods

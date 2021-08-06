@@ -37,6 +37,7 @@ public class ProductsPage extends BasePage {
 
     public ProductsPage(WebDriver driver, boolean openPageByURL) {
         super(driver, openPageByURL);
+        pageLogger.debug("The constructor worked successfully...");
     }
 
 
@@ -49,16 +50,19 @@ public class ProductsPage extends BasePage {
     }
 
     public ProductsPage orderProduct (String productName) {
+        pageLogger.debug("Initialization of orderProduct ");
         getItemAddToCartButton(productName).click();
+        pageLogger.debug(productName +" added");
         cartBadge.click();
+        pageLogger.debug("Finish of orderProduct ");
         return new ProductsPage(driver, false);
 
     }
     public ShoppingCartPage addProduct (String productName) {
+        pageLogger.debug("Initialization of addProduct ");
         getItemAddToCartButton(productName).click();
+        pageLogger.debug(productName +" added");
         cartBadge.click();
         return new ShoppingCartPage(driver, true);
-
     }
-
 }

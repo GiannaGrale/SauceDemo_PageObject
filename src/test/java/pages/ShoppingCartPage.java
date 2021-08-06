@@ -43,6 +43,7 @@ public class ShoppingCartPage extends BasePage {
 
     public ShoppingCartPage(WebDriver driver, boolean openPageByURL) {
         super(driver, openPageByURL);
+        pageLogger.debug("The constructor worked successfully...");
     }
 
 
@@ -57,18 +58,26 @@ public class ShoppingCartPage extends BasePage {
 
 
     public ProductsPage removeAndBackToShopping (String productName){
+        pageLogger.debug("Initialization of removeAndBackToShopping");
         getRemoveItemButton(productName).click();
+        pageLogger.debug("Removal of" + productName);
         cartContinueShoppingButton.click();
+        pageLogger.debug("Finish of removeAndBackToShopping");
         return new ProductsPage(driver, true);
     }
 
     public CheckoutInfoPage continueCheckoutProcess (){
+        pageLogger.debug("Initialization of continueCheckoutProcess");
         cartCheckoutButton.click();
+        pageLogger.debug("Finish of continueCheckoutProcess");
         return new CheckoutInfoPage(driver, true);
     }
 
     public ShoppingCartPage removeProduct (String productName){
+        pageLogger.debug("Initialization of removeProduct");
         getRemoveItemButton(productName).click();
+        pageLogger.debug("Removal of" + productName);
+        pageLogger.debug("Finish of removeProduct");
         return this;
     }
 }
