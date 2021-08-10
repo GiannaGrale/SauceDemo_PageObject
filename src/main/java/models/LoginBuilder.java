@@ -8,5 +8,9 @@ import lombok.Data;
 public class LoginBuilder {
     private String login;
     private String password;
+    private String randomCharsUser;
+    private String lockedUser;
+    private String glitchUser;
+    private String problemUser;
 }
 

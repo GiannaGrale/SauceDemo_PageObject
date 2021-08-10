@@ -15,5 +15,4 @@ public class LoggerTest extends BaseTest {
         logger.debug("Level is debug");
         logger.trace("Level is trace");
     }
-
 }

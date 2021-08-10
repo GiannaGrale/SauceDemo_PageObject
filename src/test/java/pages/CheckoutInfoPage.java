@@ -43,35 +43,38 @@ public class CheckoutInfoPage extends BasePage {
 
     public CheckoutInfoPage(WebDriver driver, boolean openPageByURL) {
         super(driver, openPageByURL);
-        pageLogger.debug("The constructor worked successfully...");
     }
 
     public String displayErrorButtonMessage() { return checkoutErrorButton.getText(); }
 
-    public CheckoutOverviewPage fillInFormsWithRightInfo(String firstName, String lastName, String zipCode){
-        pageLogger.debug("Initialization of fillInFormsWithRightInfo");
-        pageLogger.debug("Input of "+ firstName);
+    public CheckoutInfoPage setFirstName(String firstName) {
+        pageLogger.debug("Input of first name");
         checkoutFirstName.sendKeys(firstName);
-        pageLogger.debug("Input of "+ lastName);
-        checkoutLastName.sendKeys(lastName);
-        pageLogger.debug("Input of "+ zipCode);
-        checkoutZipCode.sendKeys(zipCode);
-        checkoutContinueButton.click();
-        pageLogger.debug("Finish of fillInFormsWithRightInfo");
-        return new CheckoutOverviewPage (driver, true);
+        return this;
     }
 
-    public CheckoutInfoPage fillInFormsWithWrongInfo(String firstName, String lastName, String zipCode){
-        pageLogger.debug("Initialization of fillInFormsWithWrongInfo");
-        pageLogger.debug("Input of "+ firstName);
-        checkoutFirstName.sendKeys(firstName);
-        pageLogger.debug("Input of "+ lastName);
+    public CheckoutInfoPage setLastName(String lastName) {
+        pageLogger.debug("Input of last name");
         checkoutLastName.sendKeys(lastName);
-        pageLogger.debug("Input of "+ zipCode);
-        checkoutZipCode.sendKeys(zipCode);
-        checkoutContinueButton.click();
-        pageLogger.debug("Finish of fillInFormsWithWrongInfo");
         return this;
+    }
+
+    public CheckoutInfoPage setZipCode(String zipCode) {
+        pageLogger.debug("Input of zipCode");
+        checkoutZipCode.sendKeys(zipCode);
+        return this;
+    }
+
+    public CheckoutInfoPage checkoutContinueBtnClick() {
+        pageLogger.debug("Click checkout continue button and stay on CheckoutInfoPage");
+        checkoutContinueButton.click();
+        return this;
+    }
+
+    public CheckoutOverviewPage successContinueCheckoutBtnClick() {
+        pageLogger.debug("Click checkout continue button and go to CheckoutOverviewPage");
+        checkoutContinueButton.click();
+        return new CheckoutOverviewPage(driver, false);
     }
 }
 

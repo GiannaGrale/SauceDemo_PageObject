@@ -40,24 +40,27 @@ public class LoginPage extends BasePage {
         }
     }
 
-    public LoginPage loginWithIncorrectCredentials(String username, String password){
-        pageLogger.debug("initialization of loginWithIncorrectCredentials");
-        pageLogger.debug("Set login " + username);
+    public LoginPage setLogin(String username){
+        pageLogger.debug("Login input");
         usernameInput.sendKeys(username);
-        passwordInput.sendKeys(password);
-        loginButton.click();
-        pageLogger.debug("Finish of loginWithIncorrectCredentials");
-        return new LoginPage(driver, false);
+        return this;
     }
 
-    public ProductsPage loginWithCorrectCredentials (String username, String password){
-        pageLogger.debug("initialization of loginWithIncorrectCredentials");
-        pageLogger.debug("Set login " + username);
-        usernameInput.sendKeys(username);
+    public LoginPage setPassword(String password){
+        pageLogger.debug("Password input");
         passwordInput.sendKeys(password);
-        loginButton.click();
-        pageLogger.debug("Finish of loginWithIncorrectCredentials");
-        return new ProductsPage(driver, true);
+        return this;
     }
 
+    public LoginPage loginBtnClick(){
+        pageLogger.debug("Click login button and stay on LoginPage ");
+        loginButton.click();
+        return this;
+    }
+
+    public ProductsPage successLoginBtnClick(){
+        pageLogger.debug("Click login button and go to on ProductsPage ");
+        loginBtnClick();
+        return new ProductsPage(driver, false);
+    }
 }

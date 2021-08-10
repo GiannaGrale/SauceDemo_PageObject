@@ -7,6 +7,7 @@ import lombok.Data;
 @Builder
 public class CustomerBuilder {
     String firstName;
+    String emptyFirstName;
     String lastName;
     String zipcode;
 }

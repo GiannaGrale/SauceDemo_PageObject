@@ -49,20 +49,21 @@ public class ProductsPage extends BasePage {
         return getItemAddToCartButton(productName).getText().toLowerCase();
     }
 
-    public ProductsPage orderProduct (String productName) {
-        pageLogger.debug("Initialization of orderProduct ");
+    public ProductsPage addProductToCart (String productName) {
+        pageLogger.debug("Choose and add a product");
         getItemAddToCartButton(productName).click();
-        pageLogger.debug(productName +" added");
-        cartBadge.click();
-        pageLogger.debug("Finish of orderProduct ");
-        return new ProductsPage(driver, false);
-
+        return this;
     }
-    public ShoppingCartPage addProduct (String productName) {
-        pageLogger.debug("Initialization of addProduct ");
-        getItemAddToCartButton(productName).click();
-        pageLogger.debug(productName +" added");
+
+    public ProductsPage observeCartOnProductPage () {
+        pageLogger.debug("Click on shopping cart button and stay on ProductsPage");
         cartBadge.click();
-        return new ShoppingCartPage(driver, true);
+        return this;
+    }
+
+    public ShoppingCartPage goToTheCart () {
+        pageLogger.debug("Click the cart button and transfer to ShoppingCartPage");
+        cartBadge.click();
+        return new ShoppingCartPage(driver, false);
     }
 }
