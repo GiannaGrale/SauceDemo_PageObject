@@ -48,17 +48,18 @@ public class ProductsPage extends BasePage {
         return getItemAddToCartButton(productName).getText().toLowerCase();
     }
 
-    public ProductsPage orderProduct (String productName) {
+    public ProductsPage addProductToCart (String productName) {
         getItemAddToCartButton(productName).click();
-        cartBadge.click();
-        return new ProductsPage(driver, false);
-
-    }
-    public ShoppingCartPage addProduct (String productName) {
-        getItemAddToCartButton(productName).click();
-        cartBadge.click();
-        return new ShoppingCartPage(driver, true);
-
+        return this;
     }
 
+    public ProductsPage observeCartOnProductPage () {
+        cartBadge.click();
+        return this;
+    }
+
+    public ShoppingCartPage goToTheCart () {
+        cartBadge.click();
+        return new ShoppingCartPage(driver, false);
+    }
 }

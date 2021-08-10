@@ -14,12 +14,18 @@ public class ValueObjectTest extends BaseTest {
     @Test(description = "An attempt to checkout with invalid form data")
     public void positiveCheckoutTest() {
         CheckoutOverviewPage checkoutOverviewPage = new LoginPage(driver, true)
-                .loginWithCorrectCredentials(customer.getLogin(), customer.getPassword())
-                .addProduct(customer.getProductName())
-                .continueCheckoutProcess()
-                .fillInFormsWithRightInfo(customer.getFirstName(), customer.getLastName(), customer.getZipcode());
+                .setLogin(customer.getLogin())
+                .setPassword(customer.getPassword())
+                .successLoginBtnClick()
+                .addProductToCart(customer.getProductName())
+                .goToTheCart()
+                .continueCheckoutBtnClick()
+                .setFirstName(customer.getFirstName())
+                .setLastName(customer.getLastName())
+                .setZipCode(customer.getZipcode())
+                .successContinueCheckoutBtnClick();
         Assert.assertEquals(checkoutOverviewPage.displayOverviewMessage(), "CHECKOUT: OVERVIEW");
-        CheckoutCompletionPage completionPage = checkoutOverviewPage.overviewOrder();
+        CheckoutCompletionPage completionPage = checkoutOverviewPage.overviewOrderBtnClick();
         Assert.assertEquals(completionPage.displayCompletionMessage(), "THANK YOU FOR YOUR ORDER");
     }
 

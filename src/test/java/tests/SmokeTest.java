@@ -1,5 +1,6 @@
 package tests;
 
+
 import baseEntities.BaseTest;
 import io.qameta.allure.Feature;
 import org.testng.Assert;
@@ -11,7 +12,9 @@ public class SmokeTest extends BaseTest {
     @Test(description = "Log in with valid credentials")
     public void positiveLoginTest() {
         ProductsPage productsPage = new LoginPage(driver, true)
-                .loginWithCorrectCredentials(properties.getUsername(), properties.getPassword());
+                .setLogin(login.getLogin())
+                .setPassword(login.getPassword())
+                .successLoginBtnClick();
         Assert.assertEquals(productsPage.titleLabel.getText(), "PRODUCTS", "The page has not opened");
     }
 
@@ -19,7 +22,9 @@ public class SmokeTest extends BaseTest {
     @Test(description = "Log in with invalid credentials")
     public void negativeLoginTest() {
         LoginPage loginPage = new LoginPage(driver, true)
-                .loginWithIncorrectCredentials(properties.getRandomCharsUsername(), properties.getPassword());
+                .setLogin(login.getRandomCharsUser())
+                .setPassword(login.getPassword())
+                .loginBtnClick();
         Assert.assertEquals(loginPage.errorMessage.getText(), "Epic sadface: Username and password do not match any user in this service");
     }
 
@@ -27,7 +32,9 @@ public class SmokeTest extends BaseTest {
     @Test(description = "Log in with valid credentials")
     public void positiveHomeTaskLoginTest1() {
         ProductsPage productsPage = new LoginPage(driver, true)
-                .loginWithCorrectCredentials(properties.getProblemUsername(), properties.getPassword());
+                .setLogin(login.getProblemUser())
+                .setPassword(login.getPassword())
+                .successLoginBtnClick();
         Assert.assertEquals(productsPage.titleLabel.getText(), "PRODUCTS", "The page has not opened");
     }
 
@@ -35,7 +42,9 @@ public class SmokeTest extends BaseTest {
     @Test(description = "Log in with valid credentials")
     public void positiveHomeTaskLoginTest2() {
         ProductsPage productsPage = new LoginPage(driver, true)
-                .loginWithCorrectCredentials(properties.getGlitchUsername(), properties.getPassword());
+                .setLogin(login.getGlitchUser())
+                .setPassword(login.getPassword())
+                .successLoginBtnClick();
         Assert.assertEquals(productsPage.titleLabel.getText(), "PRODUCTS", "The page has not opened");
     }
 
@@ -43,7 +52,9 @@ public class SmokeTest extends BaseTest {
     @Test(description = "Log in with invalid credentials")
     public void negativeHomeTaskLoginTest3() {
         LoginPage loginPage = new LoginPage(driver, true)
-                .loginWithIncorrectCredentials(properties.getLockedUsername(), properties.getPassword());
+                .setLogin(login.getLockedUser())
+                .setPassword(login.getPassword())
+                .loginBtnClick();
         Assert.assertEquals(loginPage.errorMessage.getText(), "Epic sadface: Sorry, this user has been locked out.");
     }
 
@@ -51,9 +62,12 @@ public class SmokeTest extends BaseTest {
     @Feature("Add to cart")
     @Test(description = "Check of product addition to the shopping cart")
     public void positiveHomeTaskAddToCartTest1() {
-        ProductsPage productsPage = new LoginPage(driver, true)
-                .loginWithCorrectCredentials(properties.getUsername(), properties.getPassword())
-                .orderProduct("Sauce Labs Backpack");
+        ProductsPage productsPage= new LoginPage(driver, true)
+                .setLogin(login.getLogin())
+                .setPassword(login.getPassword())
+                .successLoginBtnClick()
+                .addProductToCart(product.getProductName())
+                .observeCartOnProductPage();
         Assert.assertEquals(productsPage.cartItemNumbers.getText(), "1", "The item has not been added");
     }
 
@@ -62,8 +76,11 @@ public class SmokeTest extends BaseTest {
     @Test(description = "Check of product addition to the shopping cart")
     public void positiveHomeTaskAddToCartTest2() {
         ShoppingCartPage shoppingCartPage = new LoginPage(driver, true)
-                .loginWithCorrectCredentials(properties.getUsername(), properties.getPassword())
-                .addProduct("Sauce Labs Backpack");
+                .setLogin(login.getLogin())
+                .setPassword(login.getPassword())
+                .successLoginBtnClick()
+                .addProductToCart(product.getProductName())
+                .goToTheCart();
         Assert.assertEquals(shoppingCartPage.cartQuantityIdentifier.getText(), "1", "The item has not been added");
     }
 
@@ -72,8 +89,11 @@ public class SmokeTest extends BaseTest {
     @Test(description = "Check of product addition to the shopping cart")
     public void positiveHomeTaskAddToCartTest3() {
         ShoppingCartPage shoppingCartPage = new LoginPage(driver, true)
-                .loginWithCorrectCredentials(properties.getUsername(), properties.getPassword())
-                .addProduct("Sauce Labs Backpack");
+                .setLogin(login.getLogin())
+                .setPassword(login.getPassword())
+                .successLoginBtnClick()
+                .addProductToCart(product.getProductName())
+                .goToTheCart();
         Assert.assertEquals(shoppingCartPage.displayTextPriceOfAddedItemInCart(), "$29.99", "The item has not been added");
     }
 
@@ -83,9 +103,13 @@ public class SmokeTest extends BaseTest {
     @Test(description = "Check of product removal from the shopping cart")
     public void positiveHomeTaskRemoveFromCartTest1() {
         ProductsPage productsPage = new LoginPage(driver, true)
-                .loginWithCorrectCredentials(properties.getUsername(), properties.getPassword())
-                .addProduct("Sauce Labs Backpack")
-                .removeAndBackToShopping("Sauce Labs Backpack");
+                .setLogin(login.getLogin())
+                .setPassword(login.getPassword())
+                .successLoginBtnClick()
+                .addProductToCart(product.getProductName())
+                .goToTheCart()
+                .removeProduct(product.getProductName())
+                .goBackToShopping();
         Assert.assertEquals(productsPage.displayAddButtonMessage("Sauce Labs Backpack"), "add to cart");
     }
 
@@ -93,9 +117,12 @@ public class SmokeTest extends BaseTest {
     @Test
     public void positiveHomeTaskRemoveFromCartTest2() {
         ShoppingCartPage shoppingCartPage = new LoginPage(driver, true)
-                .loginWithCorrectCredentials(properties.getUsername(), properties.getPassword())
-                .addProduct("Sauce Labs Backpack")
-                .removeProduct("Sauce Labs Backpack");
+                .setLogin(login.getLogin())
+                .setPassword(login.getPassword())
+                .successLoginBtnClick()
+                .addProductToCart(product.getProductName())
+                .goToTheCart()
+                .removeProduct(product.getProductName());
         Assert.assertTrue(shoppingCartPage.cartRemovedItemIdentifier.isEnabled());
     }
 
@@ -103,12 +130,18 @@ public class SmokeTest extends BaseTest {
     @Test(description = "An attempt to checkout with valid form data")
     public void positiveHomeTaskCheckoutTest1() {
         CheckoutOverviewPage checkoutOverviewPage = new LoginPage(driver, true)
-                .loginWithCorrectCredentials(properties.getUsername(), properties.getPassword())
-                .addProduct("Sauce Labs Backpack")
-                .continueCheckoutProcess()
-                .fillInFormsWithRightInfo("Name", "Surname", "00001");
+                .setLogin(login.getLogin())
+                .setPassword(login.getPassword())
+                .successLoginBtnClick()
+                .addProductToCart(product.getProductName())
+                .goToTheCart()
+                .continueCheckoutBtnClick()
+                .setFirstName(newCustomer.getFirstName())
+                .setLastName(newCustomer.getLastName())
+                .setZipCode(newCustomer.getZipcode())
+                .successContinueCheckoutBtnClick();
         Assert.assertEquals(checkoutOverviewPage.displayOverviewMessage(), "CHECKOUT: OVERVIEW");
-        CheckoutCompletionPage completionPage = checkoutOverviewPage.overviewOrder();
+        CheckoutCompletionPage completionPage = checkoutOverviewPage.overviewOrderBtnClick();
         Assert.assertEquals(completionPage.displayCompletionMessage(), "THANK YOU FOR YOUR ORDER");
     }
 
@@ -116,10 +149,16 @@ public class SmokeTest extends BaseTest {
     @Test(description = "An attempt to checkout with invalid form data")
     public void negativeHomeTaskCheckoutTest2() {
         CheckoutInfoPage checkoutInfoPage = new LoginPage(driver, true)
-                .loginWithCorrectCredentials(properties.getUsername(), properties.getPassword())
-                .addProduct("Sauce Labs Backpack")
-                .continueCheckoutProcess()
-                .fillInFormsWithWrongInfo("", "Surname", "00001");
+                .setLogin(login.getLogin())
+                .setPassword(login.getPassword())
+                .successLoginBtnClick()
+                .addProductToCart(product.getProductName())
+                .goToTheCart()
+                .continueCheckoutBtnClick()
+                .setFirstName(newCustomer.getEmptyFirstName())
+                .setLastName(newCustomer.getLastName())
+                .setZipCode(newCustomer.getZipcode())
+                .checkoutContinueBtnClick();
         Assert.assertEquals(checkoutInfoPage.displayErrorButtonMessage(), "Error: First Name is required");
     }
 }

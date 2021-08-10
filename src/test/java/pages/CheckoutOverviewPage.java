@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class CheckoutOverviewPage extends BasePage {
+
     private final static String endpoint = "checkout-step-two.html";
 
     @FindBy(xpath ="//span[@class ='title']")
@@ -35,8 +36,8 @@ public class CheckoutOverviewPage extends BasePage {
 
     public String displayOverviewMessage() { return checkoutOverviewTitle.getText().toUpperCase(); }
 
-    public CheckoutCompletionPage overviewOrder (){
+    public CheckoutCompletionPage overviewOrderBtnClick (){
         checkoutFinish.click();
-        return  new CheckoutCompletionPage (driver, true);
+        return new CheckoutCompletionPage (driver, false);
     }
 }

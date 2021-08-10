@@ -1,13 +1,13 @@
 package pages;
 
 import baseEntities.BasePage;
-import models.Customer;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class CheckoutInfoPage extends BasePage {
+
     private final static String endpoint = "checkout-step-one.html";
 
     @FindBy(xpath = "//div/span[@class ='title']")
@@ -49,28 +49,29 @@ public class CheckoutInfoPage extends BasePage {
 
     public String displayErrorButtonMessage() { return checkoutErrorButton.getText(); }
 
-    public CheckoutOverviewPage fillInFormsWithRightInfo(String firstName, String lastName, String zipCode){
+    public CheckoutInfoPage setFirstName(String firstName) {
         checkoutFirstName.sendKeys(firstName);
-        checkoutLastName.sendKeys(lastName);
-        checkoutZipCode.sendKeys(zipCode);
-        checkoutContinueButton.click();
-        return  new  CheckoutOverviewPage (driver, true);
+        return this;
     }
 
-
-    public CheckoutInfoPage fillInFormsWithWrongInfo(String firstName, String lastName, String zipCode){
-        checkoutFirstName.sendKeys(firstName);
+    public CheckoutInfoPage setLastName(String lastName) {
         checkoutLastName.sendKeys(lastName);
-        checkoutZipCode.sendKeys(zipCode);
-        checkoutContinueButton.click();
-        return  this;
+        return this;
     }
-    public CheckoutInfoPage fillInForms(Customer customer){
-        checkoutFirstName.sendKeys(customer.getFirstName());
-        checkoutLastName.sendKeys(customer.getLastName());
-        checkoutZipCode.sendKeys(customer.getZipcode());
+
+    public CheckoutInfoPage setZipCode(String zipCode) {
+        checkoutZipCode.sendKeys(zipCode);
+        return this;
+    }
+
+    public CheckoutInfoPage checkoutContinueBtnClick () {
         checkoutContinueButton.click();
-        return  this;
+        return this;
+    }
+
+    public CheckoutOverviewPage successContinueCheckoutBtnClick () {
+        checkoutContinueButton.click();
+        return  new  CheckoutOverviewPage (driver, false);
     }
 }
 

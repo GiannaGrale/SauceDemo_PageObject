@@ -1,7 +1,7 @@
 package models;
 
 public class Product {
-    String productName;
+    private String productName;
 
     private Product( ) {
     }

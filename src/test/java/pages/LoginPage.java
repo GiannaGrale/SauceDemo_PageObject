@@ -1,7 +1,6 @@
 package pages;
 
 import baseEntities.BasePage;
-import models.Customer;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -40,17 +39,23 @@ public class LoginPage extends BasePage {
         }
     }
 
-    public LoginPage loginWithIncorrectCredentials(String username, String password){
+    public LoginPage setLogin(String username){
         usernameInput.sendKeys(username);
-        passwordInput.sendKeys(password);
-        loginButton.click();
-        return new LoginPage(driver, false);
+        return this;
     }
 
-    public ProductsPage loginWithCorrectCredentials (String username, String password){
-        usernameInput.sendKeys(username);
+    public LoginPage setPassword(String password){
         passwordInput.sendKeys(password);
+        return this;
+    }
+
+    public LoginPage loginBtnClick(){
         loginButton.click();
-        return new ProductsPage(driver, true);
+        return this;
+    }
+
+    public ProductsPage successLoginBtnClick(){
+        loginBtnClick();
+        return new ProductsPage(driver, false);
     }
 }

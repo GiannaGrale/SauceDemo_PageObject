@@ -1,15 +1,20 @@
 package models;
 
 public class NewCustomer {
-    String firstName;
-    String lastName;
-    String zipcode;
+    private String firstName;
+    private String emptyFirstName;
+    private String lastName;
+    private String zipcode;
 
     private NewCustomer() {
     }
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public String getEmptyFirstName() {
+        return emptyFirstName;
     }
 
     public String getLastName() {
@@ -32,6 +37,11 @@ public class NewCustomer {
 
         public Builder withFirstName(String firstName) {
             NewCustomer.this.firstName = firstName;
+            return this;
+        }
+
+        public Builder withEmptyFirstName(String emptyFirstName) {
+            NewCustomer.this.emptyFirstName = emptyFirstName;
             return this;
         }
 

@@ -55,20 +55,23 @@ public class ShoppingCartPage extends BasePage {
         return cartAddedItemPrice.getText();
     }
 
-
-    public ProductsPage removeAndBackToShopping (String productName){
-        getRemoveItemButton(productName).click();
-        cartContinueShoppingButton.click();
-        return new ProductsPage(driver, true);
-    }
-
-    public CheckoutInfoPage continueCheckoutProcess (){
-        cartCheckoutButton.click();
-        return new CheckoutInfoPage(driver, true);
-    }
-
     public ShoppingCartPage removeProduct (String productName){
         getRemoveItemButton(productName).click();
         return this;
+    }
+
+    public ShoppingCartPage continueShoppingBtnClick (String productName) {
+        cartContinueShoppingButton.click();
+        return this;
+    }
+
+    public ProductsPage goBackToShopping (){
+        cartContinueShoppingButton.click();
+        return new ProductsPage(driver, false);
+    }
+
+    public CheckoutInfoPage continueCheckoutBtnClick (){
+        cartCheckoutButton.click();
+        return new CheckoutInfoPage(driver, false);
     }
 }
