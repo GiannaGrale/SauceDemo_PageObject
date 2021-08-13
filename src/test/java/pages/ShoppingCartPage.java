@@ -1,6 +1,7 @@
 package pages;
 
 import baseEntities.BasePage;
+import core.ReadProperties;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -29,7 +30,7 @@ public class ShoppingCartPage extends BasePage {
 
     @Override
     protected void openPage() {
-        driver.get(properties.getURL() + endpoint);
+        driver.get(ReadProperties.getInstance().getURL() + endpoint);
     }
 
     @Override

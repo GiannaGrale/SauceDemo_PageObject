@@ -3,12 +3,12 @@ package core;
 import java.io.IOException;
 import java.util.Properties;
 
-public class ReadProperties {
-    protected Properties properties;
+public final class ReadProperties {
+    private static ReadProperties instance;
+    protected static Properties properties;
 
-    public ReadProperties() {
+    private ReadProperties() {
         properties = new Properties();
-
         try {
             properties.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
         } catch (IOException e) {
@@ -16,9 +16,31 @@ public class ReadProperties {
         }
     }
 
-    public String getURL() { return properties.getProperty("url");}
-    public String getBrowser() { return properties.getProperty("browser");}
-    public int getTimeout(){ return Integer.parseInt(properties.getProperty("timeout"));}
-    public boolean getHeadless(){ return Boolean.parseBoolean(properties.getProperty("headless"));}
+    public static ReadProperties getInstance() {
+        if (instance == null) {
+            instance = new ReadProperties();
+        }
+        return instance;
+    }
 
+    // Методы получения property
+    public  String getTestRailSite () {return  properties.getProperty("testrailURL");}
+    public  String getLogin () {return  properties.getProperty("login2");}
+    public  String getPassword () {return  properties.getProperty("password2");}
+
+    public String getURL() {
+        return properties.getProperty("url");
+    }
+
+    public String getBrowserName() {
+        return properties.getProperty("browser");
+    }
+
+    public boolean isHeadless() {
+        return properties.getProperty("headless").equalsIgnoreCase("true");
+    }
+
+    public int getTimeOut() {
+        return Integer.parseInt(properties.getProperty("timeout"));
+    }
 }
