@@ -7,6 +7,7 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
 import static io.restassured.RestAssured.given;
 
 public class ApiReqresTest {
@@ -243,8 +244,11 @@ public class ApiReqresTest {
                 "  \"name\": \"morpheus\",\n" +
                 "  \"job\": \"leader\"\n" +
                 "}");
+        httpRequest.header("Content-type", "application/json");
         Response postResponse = httpRequest.request(Method.POST, endpoint);
         String responseBody = postResponse.getBody().asString();
+        String responseHead = postResponse.getHeaders().toString();
+        System.out.println(responseHead);
         System.out.println(responseBody);
         int statusCode = postResponse.getStatusCode();
         Assert.assertEquals(statusCode, 201);
@@ -252,7 +256,9 @@ public class ApiReqresTest {
 
     @Test
     public void createTest_2() {
-        given()
+        Response response = given()
+                .header("Content-type", "application/json")
+                .and()
                 .body("{\n" +
                         "  \"name\": \"morpheus\",\n" +
                         "  \"job\": \"leader\"\n" +
@@ -261,7 +267,9 @@ public class ApiReqresTest {
                 .post("https://reqres.in/api/users")
                 .then()
                 .log().body()
-                .statusCode(HttpStatus.SC_CREATED);
+                .extract().response();
+        Assert.assertEquals(response.statusCode(), HttpStatus.SC_CREATED);
+
     }
 
     @Test
@@ -273,8 +281,11 @@ public class ApiReqresTest {
                 "  \"name\": \"morpheus\",\n" +
                 "  \"job\": \"zion resident\"\n" +
                 "}");
+        httpRequest.header("Content-type", "application/json");
         Response postResponse = httpRequest.request(Method.PUT, endpoint);
         String responseBody = postResponse.getBody().asString();
+        String responseHead = postResponse.getHeaders().toString();
+        System.out.println(responseHead);
         System.out.println(responseBody);
         int statusCode = postResponse.getStatusCode();
         Assert.assertEquals(statusCode, 200);
@@ -283,7 +294,9 @@ public class ApiReqresTest {
 
     @Test
     public void updateTest_2() {
-        given()
+        Response response = given()
+                .header("Content-type", "application/json")
+                .and()
                 .body("{\n" +
                         "  \"name\": \"morpheus\",\n" +
                         "  \"job\": \"zion resident\"\n" +
@@ -292,7 +305,9 @@ public class ApiReqresTest {
                 .put("https://reqres.in/api/users/2")
                 .then()
                 .log().body()
-                .statusCode(HttpStatus.SC_OK);
+                .extract().response();
+
+        Assert.assertEquals(200, response.statusCode());
     }
 
 
@@ -305,8 +320,11 @@ public class ApiReqresTest {
                 "  \"name\": \"morpheus\",\n" +
                 "  \"job\": \"zion resident\"\n" +
                 "}");
+        httpRequest.header("Content-type", "application/json");
         Response postResponse = httpRequest.request(Method.PATCH, endpoint);
         String responseBody = postResponse.getBody().asString();
+        String responseHead = postResponse.getHeaders().toString();
+        System.out.println(responseHead);
         System.out.println(responseBody);
         int statusCode = postResponse.getStatusCode();
         Assert.assertEquals(statusCode, 200);
@@ -324,6 +342,152 @@ public class ApiReqresTest {
                 .then()
                 .log().body()
                 .statusCode(HttpStatus.SC_OK);
+    }
+
+    @Test
+    public void registerSuccessfulTest() {
+        String endpoint = "/api/register";
+        RestAssured.baseURI = "https://reqres.in";
+        RequestSpecification httpRequest = given();
+        httpRequest.body("{\n" +
+                "    \"email\": \"eve.holt@reqres.in\",\n" +
+                "    \"password\": \"pistol\"\n" +
+                "}");
+        httpRequest.header("Content-type", "application/json");
+        Response postResponse = httpRequest.request(Method.POST, endpoint);
+        String responseBody = postResponse.getBody().asString();
+        String responseHead = postResponse.getHeaders().toString();
+        System.out.println(responseHead);
+        System.out.println(responseBody);
+        int statusCode = postResponse.getStatusCode();
+        Assert.assertEquals(statusCode, 200);
+    }
+
+    @Test
+    public void registerSuccessfulTest_2() {
+        Response response = given()
+                .header("Content-type", "application/json")
+                .and()
+                .body("{\n" +
+                        "    \"email\": \"eve.holt@reqres.in\",\n" +
+                        "    \"password\": \"pistol\"\n" +
+                        "}")
+                .when()
+                .post("https://reqres.in/api/register")
+                .then()
+                .log().all()
+                .extract().response();
+
+        Assert.assertEquals(200, response.statusCode());
+    }
+
+    @Test
+    public void registerUnsuccessfulTest() {
+        String endpoint = "/api/register";
+        RestAssured.baseURI = "https://reqres.in";
+        RequestSpecification httpRequest = given();
+        httpRequest.body("{\n" +
+                "    \"email\": \"sydney@fife\"\n" +
+                "}");
+        httpRequest.header("Content-type", "application/json");
+        Response postResponse = httpRequest.request(Method.POST, endpoint);
+        String responseBody = postResponse.getBody().asString();
+        String responseHead = postResponse.getHeaders().toString();
+        System.out.println(responseHead);
+        System.out.println(responseBody);
+        int statusCode = postResponse.getStatusCode();
+        Assert.assertEquals(statusCode, 400);
+    }
+
+
+    @Test
+    public void registerUnsuccessfulTest_2() {
+        Response response = given()
+            .header("Content-type", "application/json")
+            .and()
+            .body("{\n" +
+                    "    \"email\": \"sydney@fife\"\n" +
+                    "}")
+            .when()
+            .post("https://reqres.in/api/register")
+            .then()
+            .log().all()
+            .extract().response();
+
+        Assert.assertEquals(400, response.statusCode());
+    }
+
+
+    @Test
+    public void loginSuccessfulTest() {
+        String endpoint = "/api/login";
+        RestAssured.baseURI = "https://reqres.in";
+        RequestSpecification httpRequest = given();
+        httpRequest.body("{\n" +
+                "    \"email\": \"eve.holt@reqres.in\",\n" +
+                "    \"password\": \"cityslicka\"\n" +
+                "}");
+        httpRequest.header("Content-type", "application/json");
+        Response postResponse = httpRequest.request(Method.POST, endpoint);
+        String responseBody = postResponse.getBody().asString();
+        String responseHead = postResponse.getHeaders().toString();
+        System.out.println(responseHead);
+        System.out.println(responseBody);
+        int statusCode = postResponse.getStatusCode();
+        Assert.assertEquals(statusCode, 200);
+    }
+
+    @Test
+    public void loginSuccessfulTest_2() {
+        Response response = given()
+                .header("Content-type", "application/json")
+                .and()
+                .body("{\n" +
+                        "    \"email\": \"eve.holt@reqres.in\",\n" +
+                        "    \"password\": \"cityslicka\"\n" +
+                        "}")
+                .when()
+                .post("https://reqres.in/api/login")
+                .then()
+                .log().all()
+                .extract().response();
+
+        Assert.assertEquals(200, response.statusCode());
+    }
+
+    @Test
+    public void loginUnsuccessfulTest() {
+        String endpoint = "/api/login";
+        RestAssured.baseURI = "https://reqres.in";
+        RequestSpecification httpRequest = given();
+        httpRequest.body("{\n" +
+                "    \"email\": \"peter@klaven\"\n" +
+                "}");
+        httpRequest.header("Content-type", "application/json");
+        Response postResponse = httpRequest.request(Method.POST, endpoint);
+        String responseBody = postResponse.getBody().asString();
+        String responseHead = postResponse.getHeaders().toString();
+        System.out.println(responseHead);
+        System.out.println(responseBody);
+        int statusCode = postResponse.getStatusCode();
+        Assert.assertEquals(statusCode, 400);
+    }
+
+    @Test
+    public void loginUnsuccessfulTest_2() {
+        Response response = given()
+                .header("Content-type", "application/json")
+                .and()
+                .body("{\n" +
+                        "    \"email\": \"peter@klaven\"\n" +
+                        "}")
+                .when()
+                .post("https://reqres.in/api/login")
+                .then()
+                .log().all()
+                .extract().response();
+
+        Assert.assertEquals(400, response.statusCode());
     }
 }
 
