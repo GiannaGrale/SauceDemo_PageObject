@@ -307,7 +307,7 @@ public class ApiReqresTest {
                 .log().body()
                 .extract().response();
 
-        Assert.assertEquals(200, response.statusCode());
+        Assert.assertEquals(response.statusCode(), 200);
     }
 
 
@@ -378,7 +378,7 @@ public class ApiReqresTest {
                 .log().all()
                 .extract().response();
 
-        Assert.assertEquals(200, response.statusCode());
+        Assert.assertEquals(response.statusCode(), 200);
     }
 
     @Test
@@ -414,7 +414,7 @@ public class ApiReqresTest {
             .log().all()
             .extract().response();
 
-        Assert.assertEquals(400, response.statusCode());
+        Assert.assertEquals(response.statusCode(), 400);
     }
 
 
@@ -452,7 +452,7 @@ public class ApiReqresTest {
                 .log().all()
                 .extract().response();
 
-        Assert.assertEquals(200, response.statusCode());
+        Assert.assertEquals(response.statusCode(), 200);
     }
 
     @Test
@@ -487,7 +487,7 @@ public class ApiReqresTest {
                 .log().all()
                 .extract().response();
 
-        Assert.assertEquals(400, response.statusCode());
+        Assert.assertEquals(response.statusCode(), 400);
     }
 }
 
