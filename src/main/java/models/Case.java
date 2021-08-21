@@ -6,16 +6,16 @@ import lombok.Data;
 
 @Data
 @Builder
-public class TestRailUser {
-    @Expose
-    private String name;
-    @Expose
-    private String surname;
+public class Case {
     @Expose
     private int id;
     @Expose
-    private boolean isActive;
+    private String title;
     @Expose
-    private String email;
+    private String case_ids;
+    @Expose
+    private int type_id;
+    @Expose
+    private int priority_id;
 
 }
