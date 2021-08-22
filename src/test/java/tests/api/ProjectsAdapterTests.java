@@ -50,39 +50,39 @@ public class ProjectsAdapterTests extends BaseApiTest {
     @Test
     public void addProjectAdapterTest() {
         Project project = Project.builder()
-                .name("Anna's Adapter API test")
+                .name("Anna's Adapter API test ADDED")
                 .announcement("Hey, I am a test")
                 .suite_mode(ProjectTypes.MULTIPLE_SUITE_MODE)
                 .build();
+        Project addedProject = new ProjectsAdapter().add(project);
+        projectID = new ProjectsAdapter().projectSearch("Anna's Adapter API test ADDED");
 
-        Project addedProject = new ProjectsAdapter().post(project);
-        System.out.println(addedProject);
-
-        projectID = new ProjectsAdapter().add(addedProject).getId();
     }
 
     @Test
     public void addNewProjectAdapterTest () {
         Project newProject = Project.builder()
-                .name("Anna's API test")
+                .name("Anna's API test NEW")
                 .announcement("Hey, I am a test")
                 .suite_mode(ProjectTypes.SINGLE_SUITE_MODE)
                 .build();
         Project addProject = new ProjectsAdapter().add(newProject);
-        projectID = addProject.getId();
+        projectID = new ProjectsAdapter().projectSearch("Anna's API test NEW");
+
 
     }
 
     @Test(dependsOnMethods = "addNewProjectAdapterTest")
     public void updateProjectAdapterTest () {
         Project projectUpdate = Project.builder()
-                .name("Anna's API test_Adapter")
+                .name("Anna's API test_Adapter Updated")
                 .announcement("Hey, I am a test")
                 .is_completed(true)
                 .suite_mode(ProjectTypes.SINGLE_SUITE_MODE)
                 .build();
 
-        Project updatedProject = new ProjectsAdapter().update(projectUpdate,projectID);
+        Project updatedProject = new ProjectsAdapter().update(projectUpdate, projectID);
+        projectID = new ProjectsAdapter().projectSearch("Anna's API test_Adapter Updated");
         System.out.println(updatedProject);
     }
 
