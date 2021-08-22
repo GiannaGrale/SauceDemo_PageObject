@@ -69,7 +69,7 @@ public class CasesAdapterTests extends BaseApiTest {
     }
 
     @Test(dependsOnMethods = "addCaseInSectionTest")
-    public void changeCaseTest() {
+    public void updateCaseTest() {
         Case cases = Case.builder()
                 .title("Case updated by Anna")
                 .type_id(CaseTypes.TYPE_COMPATIBILITY)
@@ -135,6 +135,11 @@ public class CasesAdapterTests extends BaseApiTest {
                 .case_ids("326, 327")
                 .build();
         List<Case> copyCases = new CasesAdapter().copyCases(cases, sectionID);
+    }
+
+    @Test (dependsOnMethods = "updateCaseTest")
+    public void deleteCaseTest() {
+        Case deleteCase = new CasesAdapter().delete(caseID);
     }
 }
 

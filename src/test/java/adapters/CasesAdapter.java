@@ -112,17 +112,15 @@ public class CasesAdapter extends BaseAdapter {
 
     }
 
-    public List<Case> delete (Case cases, int projectID, int suiteID){
+    public Case delete (int caseID){
         Response response = given()
-                .body(cases, ObjectMapperType.GSON)
                 .when()
-                .post(String.format(CasesEndpoints.DELETE_CASES, projectID, suiteID))
+                .post(String.format(CasesEndpoints.DELETE_TESTCASE, caseID))
                 .then()
                 .log().body()
                 .statusCode(HttpStatus.SC_OK)
                 .extract().response();
-        return gson.fromJson(response.asString().trim(), new TypeToken<List<Case>>() {
-        }.getType());
+        return gson.fromJson(response.asString().trim(), Case.class);
     }
 }
 
