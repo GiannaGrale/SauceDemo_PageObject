@@ -23,7 +23,8 @@ public class CasesAdapterTests extends BaseApiTest {
     String suiteName = "Test Suite _1";
     String sectionName = "This is a new section";
     String projectNameWithSuites = "Anna's Adapter API test (1 suite)";
-    String projectNameWithSections =  "Anna's Adapter API test (2 cases)";
+    String projectNameWithSections = "Anna's Adapter API test (2 cases)";
+
 
     @Test
     public void createSuitesTest() {
@@ -56,19 +57,19 @@ public class CasesAdapterTests extends BaseApiTest {
         System.out.println(addCase);
     }
 
-    @Test(dependsOnMethods = "addCaseInSectionTest")
+    @Test(dependsOnMethods = "getHistoryOfCasesTest")
     public void getOneCaseTest() {
         Case oneCase = new CasesAdapter().getOne(caseID);
         System.out.println(oneCase);
     }
 
-    @Test(dependsOnMethods = "addCaseInSectionTest")
+    @Test(dependsOnMethods = "getAllCasesTest")
     public void getHistoryOfCasesTest() {
         List<Case> historyCases = new CasesAdapter().getHistory(caseID);
         System.out.println(historyCases);
     }
 
-    @Test(dependsOnMethods = "addCaseInSectionTest")
+    @Test(dependsOnMethods = "getOneCaseTest")
     public void updateCaseTest() {
         Case cases = Case.builder()
                 .title("Case updated by Anna")
@@ -86,19 +87,21 @@ public class CasesAdapterTests extends BaseApiTest {
         System.out.println(allCases.get(3));
     }
 
-    //Hardcoded case_ids. Есть трудности здесь.
-
     @Test(dependsOnMethods = "createSuitesTest")
     public void updateCasesTest() {
         suiteID = new SuitesAdapter().suiteSearch(suiteName, projectID);
+
+        String definedCaseID = new CasesAdapter().getStringCaseIDs(suiteID, projectID);
+
         Case updCase = Case.builder()
                 .title("New UPDATED cases with adapter created by Anna")
-                .case_ids("85, 86")
+                .case_ids(definedCaseID)
                 .type_id(CaseTypes.TYPE_REGRESSION)
                 .priority_id(CasePriority.PRIORITY_HIGH)
                 .build();
         List<Case> updateCases = new CasesAdapter().updateAll(updCase, suiteID);
     }
+
 
     @Test(dependsOnMethods = "addCaseInSectionTest")
     public void cases_to_new_section_Test() {
@@ -110,14 +113,18 @@ public class CasesAdapterTests extends BaseApiTest {
                 .statusCode(HttpStatus.SC_OK)
                 .extract().jsonPath().get("id");
 
+        sectionID = sectionIDs.get(2);
+        Suites suiteIDs = new SuitesAdapter().getSuite(projectID).get(0);
+        int actualSuiteID = suiteIDs.getId();
 
-        sectionID = sectionIDs.get(4);
+        String definedCaseID = new CasesAdapter().getStringCaseIDs(actualSuiteID, projectID);
 
         Case cases = Case.builder()
-                .case_ids("94, 95")
+                .case_ids(definedCaseID)
                 .build();
         List<Case> moveCases = new CasesAdapter().moveToSection(cases, sectionID);
     }
+
 
     @Test(dependsOnMethods = "addCaseInSectionTest")
     public void copyCases() {
@@ -129,17 +136,31 @@ public class CasesAdapterTests extends BaseApiTest {
                 .statusCode(HttpStatus.SC_OK)
                 .extract().jsonPath().get("id");
 
-         sectionID = sectionIDs.get(2);
+        sectionID = sectionIDs.get(2);
+        Suites suiteIDs = new SuitesAdapter().getSuite(projectID).get(0);
+        int actualSuiteID = suiteIDs.getId();
+
+        String definedCaseID = new CasesAdapter().getStringCaseIDs(actualSuiteID, projectID);
 
         Case cases = Case.builder()
-                .case_ids("326, 327")
+                .case_ids(definedCaseID)
                 .build();
         List<Case> copyCases = new CasesAdapter().copyCases(cases, sectionID);
+
     }
 
-    @Test (dependsOnMethods = "updateCaseTest")
+    @Test(dependsOnMethods = "updateCaseTest")
     public void deleteCaseTest() {
         Case deleteCase = new CasesAdapter().delete(caseID);
     }
-}
 
+    @Test
+    public void deleteCasesTest() {
+        String definedCaseID = new CasesAdapter().getStringCaseIDs(suiteID, projectID);
+
+        Case cases = Case.builder()
+                .case_ids(definedCaseID)
+                .build();
+        Case deleteCases = new CasesAdapter().deleteCases(cases, suiteID, projectID);
+    }
+}

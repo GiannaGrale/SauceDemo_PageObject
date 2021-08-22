@@ -10,5 +10,5 @@ public interface CasesEndpoints {
     String UPDATE_CASES =  "index.php?/api/v2/update_cases/%d";
     String MOVE_CASES_TO_SECTION = "index.php?/api/v2/move_cases_to_section/%d";
     String DELETE_TESTCASE = "index.php?/api/v2/delete_case/%d";
-    String DELETE_CASES = "index.php?/api/v2/delete_cases/%d&%d";
+    String DELETE_CASES = "index.php?/api/v2/delete_cases/%d&%d&soft=1";
 }
