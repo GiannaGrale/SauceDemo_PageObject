@@ -33,9 +33,11 @@ public class BaseTest {
                 .password("secret_sauce")
                 .build();
 
+
         product = ProductBuilder.builder()
                 .productName("Sauce Labs Backpack")
                 .build();
+
 
         newCustomer = CustomerBuilder.builder()
                 .firstName("Name")
