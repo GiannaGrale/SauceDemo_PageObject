@@ -23,6 +23,7 @@ public class LoginPage extends BasePage {
 
     public LoginPage(WebDriver driver, boolean openPageByURL) {
         super(driver, openPageByURL);
+        pageLogger.debug("The constructor worked successfully...");
     }
 
     @Override
@@ -40,21 +41,25 @@ public class LoginPage extends BasePage {
     }
 
     public LoginPage setLogin(String username){
+        pageLogger.debug("Login input");
         usernameInput.sendKeys(username);
         return this;
     }
 
     public LoginPage setPassword(String password){
+        pageLogger.debug("Password input");
         passwordInput.sendKeys(password);
         return this;
     }
 
     public LoginPage loginBtnClick(){
+        pageLogger.debug("Click login button and stay on LoginPage ");
         loginButton.click();
         return this;
     }
 
     public ProductsPage successLoginBtnClick(){
+        pageLogger.debug("Click login button and go to on ProductsPage ");
         loginBtnClick();
         return new ProductsPage(driver, false);
     }

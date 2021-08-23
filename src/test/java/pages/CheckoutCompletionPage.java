@@ -30,6 +30,7 @@ public class CheckoutCompletionPage extends BasePage {
 
     public CheckoutCompletionPage(WebDriver driver, boolean openPageByURL) {
         super(driver, openPageByURL);
+        pageLogger.debug("The constructor worked successfully...");
     }
 
     //atomic methods

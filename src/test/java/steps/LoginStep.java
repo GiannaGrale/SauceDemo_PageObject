@@ -5,6 +5,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pages.LoginPage;
 
+
 public class LoginStep extends BaseStep {
 
     public LoginStep(WebDriver driver) {
@@ -26,4 +27,5 @@ public class LoginStep extends BaseStep {
         loginPage.passwordInput.sendKeys(password);
         loginPage.loginButton.click();
     }
+
 }

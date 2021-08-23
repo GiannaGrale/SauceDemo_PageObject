@@ -37,6 +37,7 @@ public class ProductsPage extends BasePage {
 
     public ProductsPage(WebDriver driver, boolean openPageByURL) {
         super(driver, openPageByURL);
+        pageLogger.debug("The constructor worked successfully...");
     }
 
 
@@ -49,16 +50,19 @@ public class ProductsPage extends BasePage {
     }
 
     public ProductsPage addProductToCart (String productName) {
+        pageLogger.debug("Choose and add a product");
         getItemAddToCartButton(productName).click();
         return this;
     }
 
     public ProductsPage observeCartOnProductPage () {
+        pageLogger.debug("Click on shopping cart button and stay on ProductsPage");
         cartBadge.click();
         return this;
     }
 
     public ShoppingCartPage goToTheCart () {
+        pageLogger.debug("Click the cart button and transfer to ShoppingCartPage");
         cartBadge.click();
         return new ShoppingCartPage(driver, false);
     }

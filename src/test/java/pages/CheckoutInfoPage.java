@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class CheckoutInfoPage extends BasePage {
-
     private final static String endpoint = "checkout-step-one.html";
 
     @FindBy(xpath = "//div/span[@class ='title']")
@@ -27,7 +26,6 @@ public class CheckoutInfoPage extends BasePage {
 
     @FindBy(className = "error-message-container")
     public WebElement checkoutErrorButton;
-
 
     @Override
     protected void openPage() {
@@ -50,28 +48,33 @@ public class CheckoutInfoPage extends BasePage {
     public String displayErrorButtonMessage() { return checkoutErrorButton.getText(); }
 
     public CheckoutInfoPage setFirstName(String firstName) {
+        pageLogger.debug("Input of first name");
         checkoutFirstName.sendKeys(firstName);
         return this;
     }
 
     public CheckoutInfoPage setLastName(String lastName) {
+        pageLogger.debug("Input of last name");
         checkoutLastName.sendKeys(lastName);
         return this;
     }
 
     public CheckoutInfoPage setZipCode(String zipCode) {
+        pageLogger.debug("Input of zipCode");
         checkoutZipCode.sendKeys(zipCode);
         return this;
     }
 
-    public CheckoutInfoPage checkoutContinueBtnClick () {
+    public CheckoutInfoPage checkoutContinueBtnClick() {
+        pageLogger.debug("Click checkout continue button and stay on CheckoutInfoPage");
         checkoutContinueButton.click();
         return this;
     }
 
-    public CheckoutOverviewPage successContinueCheckoutBtnClick () {
+    public CheckoutOverviewPage successContinueCheckoutBtnClick() {
+        pageLogger.debug("Click checkout continue button and go to CheckoutOverviewPage");
         checkoutContinueButton.click();
-        return  new  CheckoutOverviewPage (driver, false);
+        return new CheckoutOverviewPage(driver, false);
     }
 }
 
