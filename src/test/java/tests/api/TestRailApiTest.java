@@ -2,7 +2,6 @@ package tests.api;
 
 import adapters.ProjectsAdapter;
 import baseEntities.BaseApiTest;
-import com.google.gson.GsonBuilder;
 import core.ReadProperties;
 import endpoints.ProjectsEndpoints;
 import endpoints.UserEndpoints;
@@ -23,6 +22,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 public class TestRailApiTest extends BaseApiTest {
+    int projectID;
+    String projectName = "Anna's Adapter API test ADDED";
 
     @Test
     public  void getAllProjectsTest () {
@@ -48,7 +49,7 @@ public class TestRailApiTest extends BaseApiTest {
 
     @Test
     public  void getOneProjectTest () {
-        int projectID = 2;
+        projectID = new ProjectsAdapter().projectSearch(projectName);
         given()
                 .when()
                 .get(String.format(ProjectsEndpoints.GET_PROJECT, projectID))
@@ -59,7 +60,7 @@ public class TestRailApiTest extends BaseApiTest {
 
     @Test
     public void getOneProjectTest_2_2 () {
-        int projectID = 1;
+        projectID = new ProjectsAdapter().projectSearch(projectName);
         RestAssured.baseURI = ReadProperties.getInstance().getTestRailSite();
         RequestSpecification httpRequest = given();
         Response oneProjectResponse = httpRequest.request(Method.GET,String.format(ProjectsEndpoints.GET_PROJECT, projectID));
@@ -81,7 +82,8 @@ public class TestRailApiTest extends BaseApiTest {
 
     @Test
     public  void getUsersDetailsTest () {
-        int userID = 1;
+        Project userIDs = new ProjectsAdapter().getUsers().get(0);
+        int userID = userIDs.getId();
         given()
                 .when()
                 .get(String.format(UserEndpoints.GET_USER, userID))
@@ -111,7 +113,6 @@ public class TestRailApiTest extends BaseApiTest {
                 .statusCode(HttpStatus.SC_OK);
     }
 
-
     @Test
     public  void addProjectTest () {
         Project project = Project.builder()
@@ -133,7 +134,6 @@ public class TestRailApiTest extends BaseApiTest {
                 .log().body()
                 .statusCode(HttpStatus.SC_OK);
     }
-
 
     @Test
     public  void addProjectTest2 () {

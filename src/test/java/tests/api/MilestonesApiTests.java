@@ -1,5 +1,6 @@
 package tests.api;
 
+import adapters.ProjectsAdapter;
 import baseEntities.BaseApiTest;
 import endpoints.MilestonesEndpoints;
 import models.Milestone;
@@ -10,6 +11,8 @@ import static io.restassured.RestAssured.given;
 
 public class MilestonesApiTests extends BaseApiTest {
     private int milestoneID;
+    private int projectID;
+    String projectWithMilestone = "Anna's project with milestones";
 
     @Test(dependsOnMethods = "getMilestonesTest")
     public void getOneMilestoneTest () {
@@ -23,7 +26,7 @@ public class MilestonesApiTests extends BaseApiTest {
 
     @Test
     public void getMilestonesTest () {
-        int projectID = 291;
+        projectID = new ProjectsAdapter().projectSearch(projectWithMilestone);
         given()
                 .when()
                 .get(String.format(MilestonesEndpoints.GET_MILESTONES, projectID))
@@ -34,7 +37,7 @@ public class MilestonesApiTests extends BaseApiTest {
 
     @Test
     public void addMilestoneTest () {
-        int projectID = 291;
+        projectID = new ProjectsAdapter().projectSearch(projectWithMilestone);
         Milestone milestone = Milestone.builder()
                 .name("Anna's milestone")
                 .description("Hey, I am a milestone")
