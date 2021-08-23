@@ -27,9 +27,11 @@ public class BaseTest {
                 .withProblemLogin("problem_user")
                 .withPassword("secret_sauce")
                 .build();
+
         product = Product.newBuilder()
                 .withProduct("Sauce Labs Backpack")
                 .build();
+
         newCustomer = NewCustomer.newBuilder()
                 .withFirstName("Name")
                 .withEmptyFirstName("")
