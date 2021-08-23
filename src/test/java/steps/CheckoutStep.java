@@ -15,19 +15,19 @@ public class CheckoutStep extends BaseStep {
     @Step("Click to proceed with the checkout")
     public void continueCheckoutProcess() {
         ShoppingCartPage shoppingCartPage = new ShoppingCartPage(driver, true);
-        shoppingCartPage.clickCheckoutButton();
+        shoppingCartPage.cartCheckoutButton.click();
     }
     @Step("Fill in the checkout forms with the following data '{firstNameInput}', '{lastNameInput}', '{zipcodeInput}'")
     public void fillInCheckoutForms(String firstNameInput, String lastNameInput, String zipcodeInput) {
         CheckoutInfoPage checkoutInfoPage = new CheckoutInfoPage(driver, true);
-        checkoutInfoPage.setFirstNameInput(firstNameInput);
-        checkoutInfoPage.setLastNameInput(lastNameInput);
-        checkoutInfoPage.setZipcodeInput(zipcodeInput);
-        checkoutInfoPage.clickContinueButton();
+        checkoutInfoPage.checkoutFirstName.sendKeys(firstNameInput);
+        checkoutInfoPage.checkoutLastName.sendKeys(lastNameInput);
+        checkoutInfoPage.checkoutZipCode.sendKeys(zipcodeInput);
+        checkoutInfoPage.checkoutContinueButton.click();
     }
     @Step("Overview and finish the checkout process")
     public void overviewOrder() {
         CheckoutOverviewPage checkoutOverviewPage = new CheckoutOverviewPage(driver, false);
-        checkoutOverviewPage.clickFinishButton();
+        checkoutOverviewPage.checkoutFinish.click();
     }
 }
