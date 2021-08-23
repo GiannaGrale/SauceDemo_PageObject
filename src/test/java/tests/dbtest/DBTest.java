@@ -55,6 +55,6 @@ public class DBTest extends BaseDBTest {
         String sql4_3 = "SELECT BirthDate FROM [Employees] WHERE FirstName LIKE 'A%';";
         String sql4_4 = "SELECT LastName, FirstName, BirthDate FROM [Employees] ORDER BY BirthDate ASC;";
 
-        String sql3 = " SELECT Characters FROM character WHERE level > 45 AND race like 'dwarf';";
+        String sql3 = " SELECT * FROM character.character WHERE level > 45 AND race = 'dwarf';";
     }
 }
