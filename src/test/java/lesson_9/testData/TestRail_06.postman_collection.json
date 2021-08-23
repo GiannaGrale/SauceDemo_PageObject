@@ -1,0 +1,326 @@
+{
+	"info": {
+		"_postman_id": "840eecc3-4874-4b24-a953-116864fd80e8",
+		"name": "TestRail_06",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get_project",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}index.php?/api/v2/get_project/{{project_id}}",
+					"host": [
+						"{{url}}index",
+						"php"
+					],
+					"query": [
+						{
+							"key": "/api/v2/get_project/{{project_id}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_projects",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}index.php?/api/v2/get_projects",
+					"host": [
+						"{{url}}index",
+						"php"
+					],
+					"query": [
+						{
+							"key": "/api/v2/get_projects",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_project",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"Anna's added project\",\r\n\t\"announcement\": \"This is the description for the Anna's project #3\",\r\n\t\"show_announcement\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}index.php?/api/v2/add_project",
+					"host": [
+						"{{url}}index",
+						"php"
+					],
+					"query": [
+						{
+							"key": "/api/v2/add_project",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_project",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"Updated Anna's project\",\r\n    \"announcement\": \"some updated description\",\r\n    \"show_annoucement\": true,\r\n    \"is_completed\": true\r\n\r\n\r\n\r\n\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}index.php?/api/v2/update_project/{{project_id}}",
+					"host": [
+						"{{url}}index",
+						"php"
+					],
+					"query": [
+						{
+							"key": "/api/v2/update_project/{{project_id}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_project",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}index.php?/api/v2/delete_project/{{project_id}}",
+					"host": [
+						"{{url}}index",
+						"php"
+					],
+					"query": [
+						{
+							"key": "/api/v2/delete_project/{{project_id}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_milestone",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}index.php?/api/v2/get_milestone/{{milestone_id}}",
+					"host": [
+						"{{url}}index",
+						"php"
+					],
+					"query": [
+						{
+							"key": "/api/v2/get_milestone/{{milestone_id}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_milestones",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}index.php?/api/v2/get_milestones/{{project_id}}",
+					"host": [
+						"{{url}}index",
+						"php"
+					],
+					"query": [
+						{
+							"key": "/api/v2/get_milestones/{{project_id}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_milestone",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"Milestone_5_added\",\r\n        \"description\": \"some text\",\r\n        \"start_on\": null,\r\n        \"started_on\": 1625577517,\r\n        \"is_started\": true,\r\n        \"due_on\": null,\r\n        \"is_completed\": true,\r\n        \"completed_on\": null,\r\n        \"project_id\": 16,\r\n        \"parent_id\": null,\r\n        \"refs\": null,\r\n        \"url\": \"https://aqa06onl01.testrail.io/index.php?/milestones/view/7\",\r\n        \"milestones\": []\r\n    }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}index.php?/api/v2/add_milestone/{{project_id}}",
+					"host": [
+						"{{url}}index",
+						"php"
+					],
+					"query": [
+						{
+							"key": "/api/v2/add_milestone/{{project_id}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_milestone",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 4,\r\n    \"name\": \"Milestone_2_updated\",\r\n    \"description\": \"desc\",\r\n    \"start_on\": null,\r\n    \"started_on\": 1625565203,\r\n    \"is_started\": true,\r\n    \"due_on\": null,\r\n    \"is_completed\": true,\r\n    \"completed_on\": null,\r\n    \"project_id\": 12,\r\n    \"parent_id\": null,\r\n    \"refs\": null,\r\n    \"url\": \"https://aqa06onl01.testrail.io/index.php?/milestones/view/4\",\r\n    \"milestones\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}index.php?/api/v2/update_milestone/{{milestone_id}}",
+					"host": [
+						"{{url}}index",
+						"php"
+					],
+					"query": [
+						{
+							"key": "/api/v2/update_milestone/{{milestone_id}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_milestone",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}index.php?/api/v2/delete_milestone/{{milestone_id}}",
+					"host": [
+						"{{url}}index",
+						"php"
+					],
+					"query": [
+						{
+							"key": "/api/v2/delete_milestone/{{milestone_id}}",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "hYE/RiquvQVIzXfiBwm3",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "atrostyanko+0601@gmail.com",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

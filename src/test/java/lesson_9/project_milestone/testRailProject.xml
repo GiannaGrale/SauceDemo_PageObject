@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project>
+    <id>16</id>
+    <name>Updated Anna's project</name>
+    <announcement>some updated description</announcement>
+    <show_announcement>false</show_announcement>
+    <is_completed>true</is_completed>
+    <completed_on>1625578641</completed_on>
+    <suite_mode>1</suite_mode>
+    <url>https://aqa06onl01.testrail.io/index.php?/projects/overview/16</url>
+</project>
