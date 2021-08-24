@@ -2,6 +2,7 @@ package baseEntities;
 
 import core.BrowserService;
 import core.ReadProperties;
+
 import models.CustomerBuilder;
 import models.LoginBuilder;
 import models.ProductBuilder;
@@ -10,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
+
 import utils.Listener;
 
 
@@ -22,30 +24,6 @@ public class BaseTest {
     public CustomerBuilder newCustomer;
     public LoginBuilder login;
 
-    @BeforeSuite
-    public void prepareData() {
-        login = LoginBuilder.builder()
-                .login("standard_user")
-                .glitchUser("performance_glitch_user")
-                .lockedUser("locked_out_user")
-                .randomCharsUser("wek3elk")
-                .problemUser("problem_user")
-                .password("secret_sauce")
-                .build();
-
-
-        product = ProductBuilder.builder()
-                .productName("Sauce Labs Backpack")
-                .build();
-
-
-        newCustomer = CustomerBuilder.builder()
-                .firstName("Name")
-                .emptyFirstName("")
-                .lastName("Surname")
-                .zipcode("294706")
-                .build();
-    }
 
     @BeforeSuite
     protected SauceValue setUpSauceDemo(){

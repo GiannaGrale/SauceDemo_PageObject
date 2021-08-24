@@ -1,30 +1,29 @@
 package tests.api;
 
-import io.restassured.RestAssured;
+import baseEntities.BaseReqresAPITest;
+import endpoints.ReqresEndpoints;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import models.ReqresUser;
 import org.apache.http.HttpStatus;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class ApiReqresTest {
+public class ApiReqresTest extends BaseReqresAPITest {
+    int endpointTWO = 2;
+    int endpointTHREE = 3;
+    int endpointTwentyThree = 23;
 
     @Test
     public void listUsersTest() {
-
-        String endpoint = "/api/users?page=2";
-
-        //RestAssured settings
-        RestAssured.baseURI = "https://reqres.in/";
-
         //Setup request
         RequestSpecification httpRequest = given();
 
         //Setup response
-        Response listUsersResponse = httpRequest.request(Method.GET, endpoint);
+        Response listUsersResponse = httpRequest.request(Method.GET, String.format(ReqresEndpoints.ALl_USERS, endpointTWO));
         System.out.println(listUsersResponse.asString());
         System.out.println(listUsersResponse.getHeaders().toString());
 
@@ -43,7 +42,7 @@ public class ApiReqresTest {
     public void listUsersTest_2() {
         given()
                 .when()
-                .get("https://reqres.in/api/users?page=2")
+                .get(String.format(ReqresEndpoints.ALl_USERS, endpointTWO))
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .log().body();
@@ -52,10 +51,8 @@ public class ApiReqresTest {
 
     @Test
     public void singleUserTest() {
-        String endpoint = "api/users/2";
-        RestAssured.baseURI = "https://reqres.in/";
         RequestSpecification httpRequest = given();
-        Response singleUserResponse = httpRequest.request(Method.GET, endpoint);
+        Response singleUserResponse = httpRequest.request(Method.GET, String.format(ReqresEndpoints.ONE_USER, endpointTWO));
         System.out.println(singleUserResponse.asString());
         System.out.println(singleUserResponse.getHeaders().toString());
         String responseBody = singleUserResponse.getBody().asString();
@@ -69,7 +66,7 @@ public class ApiReqresTest {
     public void singleUserTest_2() {
         given()
                 .when()
-                .get("https://reqres.in/api/users/2")
+                .get( String.format(ReqresEndpoints.ONE_USER, endpointTWO))
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .log().body();
@@ -78,10 +75,8 @@ public class ApiReqresTest {
 
     @Test
     public void singleUserNotFoundTest() {
-        String endpoint = "/api/users/23";
-        RestAssured.baseURI = "https://reqres.in/";
         RequestSpecification httpRequest = given();
-        Response singleUserNotFoundResponse = httpRequest.request(Method.GET, endpoint);
+        Response singleUserNotFoundResponse = httpRequest.request(Method.GET, String.format(ReqresEndpoints.ONE_USER, endpointTwentyThree));
 
         System.out.println(singleUserNotFoundResponse.asString());
         System.out.println(singleUserNotFoundResponse.getHeaders().toString());
@@ -98,7 +93,7 @@ public class ApiReqresTest {
     public void singleUserNotFoundTest_2() {
         given()
                 .when()
-                .get("https://reqres.in/api/users/23")
+                .get(String.format(ReqresEndpoints.ONE_USER, endpointTwentyThree))
                 .then()
                 .statusCode(HttpStatus.SC_NOT_FOUND)
                 .log().body();
@@ -107,11 +102,8 @@ public class ApiReqresTest {
 
     @Test
     public void listResourcesTest() {
-        String endpoint = "/api/unknown";
-        RestAssured.baseURI = "https://reqres.in";
-
         RequestSpecification httpRequest = given();
-        Response listResourcesResponse = httpRequest.request(Method.GET, endpoint);
+        Response listResourcesResponse = httpRequest.request(Method.GET, ReqresEndpoints.RESOURCES);
         System.out.println(listResourcesResponse.asString());
         System.out.println(listResourcesResponse.getHeaders().toString());
 
@@ -127,7 +119,7 @@ public class ApiReqresTest {
     public void listResourcesTest_2() {
         given()
                 .when()
-                .get("https://reqres.in/api/unknown")
+                .get(ReqresEndpoints.RESOURCES)
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .log().body();
@@ -135,10 +127,8 @@ public class ApiReqresTest {
 
     @Test
     public void singleResourcesTest() {
-        String endpoint = "/api/unknown/2";
-        RestAssured.baseURI = "https://reqres.in";
         RequestSpecification httpRequest = given();
-        Response singleResourcesResponse = httpRequest.request(Method.GET, endpoint);
+        Response singleResourcesResponse = httpRequest.request(Method.GET, String.format(ReqresEndpoints.SINGLE_RESOURCES, endpointTWO));
         System.out.println(singleResourcesResponse.asString());
         System.out.println(singleResourcesResponse.getHeaders().toString());
 
@@ -153,7 +143,7 @@ public class ApiReqresTest {
     public void singleResourcesTest_2() {
         given()
                 .when()
-                .get("https://reqres.in/api/unknown/2")
+                .get(String.format(ReqresEndpoints.SINGLE_RESOURCES, endpointTWO))
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .log().body();
@@ -161,10 +151,8 @@ public class ApiReqresTest {
 
     @Test
     public void singleResourcesNotFoundTest() {
-        String endpoint = "/api/unknown/23";
-        RestAssured.baseURI = "https://reqres.in";
         RequestSpecification httpRequest = given();
-        Response singleResourcesNotFoundResponse = httpRequest.request(Method.GET, endpoint);
+        Response singleResourcesNotFoundResponse = httpRequest.request(Method.GET, String.format(ReqresEndpoints.SINGLE_RESOURCES, endpointTwentyThree));
         System.out.println(singleResourcesNotFoundResponse.asString());
         System.out.println(singleResourcesNotFoundResponse.getHeaders().toString());
         String responseBody = singleResourcesNotFoundResponse.getBody().asString();
@@ -177,7 +165,7 @@ public class ApiReqresTest {
     public void singleResourcesNotFoundTest_2() {
         given()
                 .when()
-                .get("https://reqres.in/api/unknown/23")
+                .get(String.format(ReqresEndpoints.SINGLE_RESOURCES, endpointTwentyThree))
                 .then()
                 .statusCode(HttpStatus.SC_NOT_FOUND)
                 .log().body();
@@ -185,10 +173,8 @@ public class ApiReqresTest {
 
     @Test
     public void deleteTest() {
-        String endpoint = "/api/users/2";
-        RestAssured.baseURI = "https://reqres.in";
         RequestSpecification httpRequest = given();
-        Response deleteResponse = httpRequest.request(Method.DELETE, endpoint);
+        Response deleteResponse = httpRequest.request(Method.DELETE, String.format(ReqresEndpoints.ONE_USER, endpointTWO));
         System.out.println(deleteResponse.asString());
 
         String responseBody = deleteResponse.getBody().asString();
@@ -202,7 +188,7 @@ public class ApiReqresTest {
     public void deleteTest_2() {
         given()
                 .when()
-                .delete("https://reqres.in/api/users/2")
+                .delete(String.format(ReqresEndpoints.ONE_USER, endpointTWO))
                 .then()
                 .statusCode(HttpStatus.SC_NO_CONTENT)
                 .log().body();
@@ -210,10 +196,8 @@ public class ApiReqresTest {
 
     @Test
     public void delayedTest() {
-        String endpoint = "/api/users?delay=3";
-        RestAssured.baseURI = "https://reqres.in";
         RequestSpecification httpRequest = given();
-        Response delayedResponse = httpRequest.request(Method.GET, endpoint);
+        Response delayedResponse = httpRequest.request(Method.GET, String.format(ReqresEndpoints.DELAYED_USER, endpointTHREE));
         System.out.println(delayedResponse.asString());
 
         String responseBody = delayedResponse.getBody().asString();
@@ -227,25 +211,24 @@ public class ApiReqresTest {
     public void delayedTest_2() {
         given()
                 .when()
-                .get("https://reqres.in/api/users?delay=3")
+                .get(String.format(ReqresEndpoints.DELAYED_USER, endpointTHREE))
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .log().body();
     }
 
-
-    //Post, patch, put. Не уверена, что верно
     @Test
     public void createTest() {
-        String endpoint = "/api/users";
-        RestAssured.baseURI = "https://reqres.in";
         RequestSpecification httpRequest = given();
-        httpRequest.body("{\n" +
-                "  \"name\": \"morpheus\",\n" +
-                "  \"job\": \"leader\"\n" +
-                "}");
-        httpRequest.header("Content-type", "application/json");
-        Response postResponse = httpRequest.request(Method.POST, endpoint);
+        ReqresUser user =ReqresUser.builder()
+                .name("morpheus")
+                .job("leader")
+                .build();
+        httpRequest.body(String.format("{\n" +
+                "  \"name\": \"%s\",\n" +
+                "  \"job\": \"%s\"\n" +
+                "}", user.getName(), user.getJob()));
+        Response postResponse = httpRequest.request(Method.POST, ReqresEndpoints.USERS);
         String responseBody = postResponse.getBody().asString();
         String responseHead = postResponse.getHeaders().toString();
         System.out.println(responseHead);
@@ -256,33 +239,37 @@ public class ApiReqresTest {
 
     @Test
     public void createTest_2() {
+        ReqresUser user = ReqresUser.builder()
+                .name("morpheus")
+                .job("leader")
+                .build();
+
         Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body("{\n" +
-                        "  \"name\": \"morpheus\",\n" +
-                        "  \"job\": \"leader\"\n" +
-                        "}")
+                .body(String.format("{\n" +
+                        "  \"name\": \"%s\",\n" +
+                        "  \"job\": \"%s\"\n" +
+                        "}", user.getName(),user.getJob()))
                 .when()
-                .post("https://reqres.in/api/users")
+                .post(ReqresEndpoints.USERS)
                 .then()
                 .log().body()
                 .extract().response();
         Assert.assertEquals(response.statusCode(), HttpStatus.SC_CREATED);
-
     }
 
     @Test
     public void updateTest() {
-        String endpoint = "/api/users/2";
-        RestAssured.baseURI = "https://reqres.in";
+        ReqresUser user = ReqresUser.builder()
+                .name("morpheus")
+                .job("zion resident")
+                .build();
+
         RequestSpecification httpRequest = given();
-        httpRequest.body("{\n" +
-                "  \"name\": \"morpheus\",\n" +
-                "  \"job\": \"zion resident\"\n" +
-                "}");
-        httpRequest.header("Content-type", "application/json");
-        Response postResponse = httpRequest.request(Method.PUT, endpoint);
+        httpRequest.body(String.format("{\n" +
+                "  \"name\": \"%s\",\n" +
+                "  \"job\": \"%s\"\n" +
+                "}", user.getName(), user.getJob()));
+        Response postResponse = httpRequest.request(Method.PUT, String.format(ReqresEndpoints.ONE_USER, endpointTWO));
         String responseBody = postResponse.getBody().asString();
         String responseHead = postResponse.getHeaders().toString();
         System.out.println(responseHead);
@@ -291,37 +278,38 @@ public class ApiReqresTest {
         Assert.assertEquals(statusCode, 200);
     }
 
-
     @Test
     public void updateTest_2() {
+        ReqresUser user = ReqresUser.builder()
+                .name("morpheus")
+                .job("zion resident")
+                .build();
         Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body("{\n" +
-                        "  \"name\": \"morpheus\",\n" +
-                        "  \"job\": \"zion resident\"\n" +
-                        "}")
+                .body(String.format("{\n" +
+                        "  \"name\": \"%s\",\n" +
+                        "  \"job\": \"%s\"\n" +
+                        "}", user.getName(), user.getJob()))
                 .when()
-                .put("https://reqres.in/api/users/2")
+                .put(String.format(ReqresEndpoints.ONE_USER, endpointTWO))
                 .then()
                 .log().body()
                 .extract().response();
-
         Assert.assertEquals(response.statusCode(), 200);
     }
 
-
     @Test
     public void patchTest() {
-        String endpoint = "/api/users/2";
-        RestAssured.baseURI = "https://reqres.in";
+        ReqresUser user =ReqresUser.builder()
+                .name("morpheus")
+                .job("zion resident")
+                .build();
+
         RequestSpecification httpRequest = given();
-        httpRequest.body("{\n" +
-                "  \"name\": \"morpheus\",\n" +
-                "  \"job\": \"zion resident\"\n" +
-                "}");
-        httpRequest.header("Content-type", "application/json");
-        Response postResponse = httpRequest.request(Method.PATCH, endpoint);
+        httpRequest.body(String.format("{\n" +
+                "  \"name\": \"%s\",\n" +
+                "  \"job\": \"%s\"\n" +
+                "}", user.getName(), user.getJob()));
+        Response postResponse = httpRequest.request(Method.PATCH, String.format(ReqresEndpoints.ONE_USER, endpointTWO));
         String responseBody = postResponse.getBody().asString();
         String responseHead = postResponse.getHeaders().toString();
         System.out.println(responseHead);
@@ -332,13 +320,18 @@ public class ApiReqresTest {
 
     @Test
     public void patchTest_2() {
+        ReqresUser user = ReqresUser.builder()
+                .name("morpheus")
+                .job("zion resident")
+                .build();
+
         given()
-                .body("{\n" +
-                        "  \"name\": \"morpheus\",\n" +
-                        "  \"job\": \"zion resident\"\n" +
-                        "}")
+                .body(String.format("{\n" +
+                        "  \"name\": \"%s\",\n" +
+                        "  \"job\": \"%s\"\n" +
+                        "}", user.getName(), user.getJob()))
                 .when()
-                .patch("https://reqres.in/api/users/2")
+                .patch(String.format(ReqresEndpoints.ONE_USER, endpointTWO))
                 .then()
                 .log().body()
                 .statusCode(HttpStatus.SC_OK);
@@ -346,15 +339,17 @@ public class ApiReqresTest {
 
     @Test
     public void registerSuccessfulTest() {
-        String endpoint = "/api/register";
-        RestAssured.baseURI = "https://reqres.in";
+        ReqresUser user = ReqresUser.builder()
+                .email("eve.holt@reqres.in")
+                .password("pistol")
+                .build();
+
         RequestSpecification httpRequest = given();
-        httpRequest.body("{\n" +
-                "    \"email\": \"eve.holt@reqres.in\",\n" +
-                "    \"password\": \"pistol\"\n" +
-                "}");
-        httpRequest.header("Content-type", "application/json");
-        Response postResponse = httpRequest.request(Method.POST, endpoint);
+        httpRequest.body(String.format("{\n" +
+                "    \"email\": \"%s\",\n" +
+                "    \"password\": \"%s\"\n" +
+                "}", user.getEmail(), user.getPassword()));
+        Response postResponse = httpRequest.request(Method.POST, ReqresEndpoints.REGISTER_USER);
         String responseBody = postResponse.getBody().asString();
         String responseHead = postResponse.getHeaders().toString();
         System.out.println(responseHead);
@@ -365,15 +360,18 @@ public class ApiReqresTest {
 
     @Test
     public void registerSuccessfulTest_2() {
+        ReqresUser user = ReqresUser.builder()
+                .email("eve.holt@reqres.in")
+                .password("pistol")
+                .build();
+
         Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body("{\n" +
-                        "    \"email\": \"eve.holt@reqres.in\",\n" +
-                        "    \"password\": \"pistol\"\n" +
-                        "}")
+                .body(String.format("{\n" +
+                "    \"email\": \"%s\",\n" +
+                "    \"password\": \"%s\"\n" +
+                "}", user.getEmail(), user.getPassword()))
                 .when()
-                .post("https://reqres.in/api/register")
+                .post(ReqresEndpoints.REGISTER_USER)
                 .then()
                 .log().all()
                 .extract().response();
@@ -383,14 +381,15 @@ public class ApiReqresTest {
 
     @Test
     public void registerUnsuccessfulTest() {
-        String endpoint = "/api/register";
-        RestAssured.baseURI = "https://reqres.in";
+        ReqresUser user = ReqresUser.builder()
+                .email("sydney@fife")
+                .build();
+
         RequestSpecification httpRequest = given();
-        httpRequest.body("{\n" +
-                "    \"email\": \"sydney@fife\"\n" +
-                "}");
-        httpRequest.header("Content-type", "application/json");
-        Response postResponse = httpRequest.request(Method.POST, endpoint);
+        httpRequest.body(String.format("{\n" +
+                "    \"email\": \"%s\"\n" +
+                "}", user.getEmail()));
+        Response postResponse = httpRequest.request(Method.POST,ReqresEndpoints.REGISTER_USER);
         String responseBody = postResponse.getBody().asString();
         String responseHead = postResponse.getHeaders().toString();
         System.out.println(responseHead);
@@ -399,36 +398,37 @@ public class ApiReqresTest {
         Assert.assertEquals(statusCode, 400);
     }
 
-
     @Test
     public void registerUnsuccessfulTest_2() {
+        ReqresUser user = ReqresUser.builder()
+                .email("sydney@fife")
+                .build();
         Response response = given()
-            .header("Content-type", "application/json")
-            .and()
-            .body("{\n" +
-                    "    \"email\": \"sydney@fife\"\n" +
-                    "}")
-            .when()
-            .post("https://reqres.in/api/register")
-            .then()
-            .log().all()
-            .extract().response();
+        .body(String.format("{\n" +
+                "    \"email\": \"%s\"\n" +
+                "}", user.getEmail()))
+                .when()
+                .post(ReqresEndpoints.REGISTER_USER)
+                .then()
+                .log().all()
+                .extract().response();
 
         Assert.assertEquals(response.statusCode(), 400);
     }
 
-
     @Test
     public void loginSuccessfulTest() {
-        String endpoint = "/api/login";
-        RestAssured.baseURI = "https://reqres.in";
+        ReqresUser user = ReqresUser.builder()
+                .email("eve.holt@reqres.in")
+                .password("cityslicka")
+                .build();
+
         RequestSpecification httpRequest = given();
-        httpRequest.body("{\n" +
-                "    \"email\": \"eve.holt@reqres.in\",\n" +
-                "    \"password\": \"cityslicka\"\n" +
-                "}");
-        httpRequest.header("Content-type", "application/json");
-        Response postResponse = httpRequest.request(Method.POST, endpoint);
+        httpRequest.body(String.format("{\n" +
+                "    \"email\": \"%s\",\n" +
+                "    \"password\": \"%s\"\n" +
+                "}", user.getEmail(), user.getPassword()));
+        Response postResponse = httpRequest.request(Method.POST, ReqresEndpoints.LOGIN_USER);
         String responseBody = postResponse.getBody().asString();
         String responseHead = postResponse.getHeaders().toString();
         System.out.println(responseHead);
@@ -439,15 +439,17 @@ public class ApiReqresTest {
 
     @Test
     public void loginSuccessfulTest_2() {
+        ReqresUser user = ReqresUser.builder()
+                .email("eve.holt@reqres.in")
+                .password("cityslicka")
+                .build();
         Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body("{\n" +
-                        "    \"email\": \"eve.holt@reqres.in\",\n" +
-                        "    \"password\": \"cityslicka\"\n" +
-                        "}")
+                .body(String.format("{\n" +
+                        "    \"email\": \"%s\",\n" +
+                        "    \"password\": \"%s\"\n" +
+                        "}", user.getEmail(), user.getPassword()))
                 .when()
-                .post("https://reqres.in/api/login")
+                .post(ReqresEndpoints.LOGIN_USER)
                 .then()
                 .log().all()
                 .extract().response();
@@ -457,14 +459,15 @@ public class ApiReqresTest {
 
     @Test
     public void loginUnsuccessfulTest() {
-        String endpoint = "/api/login";
-        RestAssured.baseURI = "https://reqres.in";
+        ReqresUser user = ReqresUser.builder()
+                .email("peter@klaven")
+                .build();
+
         RequestSpecification httpRequest = given();
-        httpRequest.body("{\n" +
-                "    \"email\": \"peter@klaven\"\n" +
-                "}");
-        httpRequest.header("Content-type", "application/json");
-        Response postResponse = httpRequest.request(Method.POST, endpoint);
+        httpRequest.body(String.format("{\n" +
+                "    \"email\": \"%s\"\n" +
+                "}", user.getEmail()));
+        Response postResponse = httpRequest.request(Method.POST, ReqresEndpoints.LOGIN_USER);
         String responseBody = postResponse.getBody().asString();
         String responseHead = postResponse.getHeaders().toString();
         System.out.println(responseHead);
@@ -475,18 +478,18 @@ public class ApiReqresTest {
 
     @Test
     public void loginUnsuccessfulTest_2() {
+        ReqresUser user = ReqresUser.builder()
+                .email("peter@klaven")
+                .build();
         Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body("{\n" +
-                        "    \"email\": \"peter@klaven\"\n" +
-                        "}")
+                .body(String.format("{\n" +
+                        "    \"email\": \"%s\"\n" +
+                        "}", user.getEmail()))
                 .when()
-                .post("https://reqres.in/api/login")
+                .post(ReqresEndpoints.LOGIN_USER)
                 .then()
                 .log().all()
                 .extract().response();
-
         Assert.assertEquals(response.statusCode(), 400);
     }
 }

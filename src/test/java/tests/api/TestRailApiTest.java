@@ -1,7 +1,6 @@
 package tests.api;
 
 import baseEntities.BaseApiTest;
-import com.google.common.html.HtmlEscapers;
 import core.ReadProperties;
 import endpoints.ProjectsEndpoints;
 import endpoints.UserEndpoints;
@@ -23,10 +22,9 @@ import static org.hamcrest.Matchers.is;
 public class TestRailApiTest extends BaseApiTest {
 
    //Home task
-
     @Test
     public  void getAllProjectsTest () {
-        String endpoint ="index.php?/api/v2/get_projects";
+        String endpoint = ProjectsEndpoints.GET_PROJECTS;
         given()
                 .when()
                 .get(endpoint)
@@ -37,7 +35,7 @@ public class TestRailApiTest extends BaseApiTest {
 
     @Test
     public  void getAllProjectsTest_2 () {
-        String endpoint ="index.php?/api/v2/get_projects";
+        String endpoint = ProjectsEndpoints.GET_PROJECTS;
         RestAssured.baseURI = ReadProperties.getInstance().getTestRailSite();
         RequestSpecification httpRequest = given();
         Response allProjectsResponse = httpRequest.request(Method.GET, endpoint);
@@ -50,7 +48,7 @@ public class TestRailApiTest extends BaseApiTest {
     @Test
     public  void getOneProjectTest () {
         int projectID = 2;
-        String endpoint ="index.php?/api/v2/get_project/%s";
+        String endpoint = String.format(ProjectsEndpoints.GET_ONE_PROJECT, projectID);
         given()
                 .when()
                 .get(String.format(endpoint, projectID))
@@ -62,7 +60,7 @@ public class TestRailApiTest extends BaseApiTest {
     @Test
     public  void getOneProjectsTest_2 () {
         int projectID = 1;
-        String endpoint ="index.php?/api/v2/get_project/%s";
+        String endpoint = String.format(ProjectsEndpoints.GET_ONE_PROJECT, projectID);
         RestAssured.baseURI = ReadProperties.getInstance().getTestRailSite();
         RequestSpecification httpRequest = given();
         Response oneProjectResponse = httpRequest.request(Method.GET,String.format(endpoint, projectID));
@@ -74,8 +72,7 @@ public class TestRailApiTest extends BaseApiTest {
 
     @Test
     public  void getAllUsers () {
-        String endpoint = "index.php?/api/v2/get_users";
-
+        String endpoint = UserEndpoints.GET_USERS;
         given()
                 .when()
                 .get(endpoint)
@@ -87,8 +84,7 @@ public class TestRailApiTest extends BaseApiTest {
     @Test
     public  void getUsersDetailsTest () {
         int userID = 1;
-        String  endpoint = "index.php?/api/v2/get_user/%s";
-
+        String endpoint = String.format(UserEndpoints.GET_USER, userID);
         given()
                 .when()
                 .get(String.format(endpoint, userID))
@@ -122,7 +118,6 @@ public class TestRailApiTest extends BaseApiTest {
 
     @Test
     public  void addProjectTest () {
-
         Project project = Project.builder()
                 .name("Anna's API test")
                 .announcement("Hey, I am a test")
