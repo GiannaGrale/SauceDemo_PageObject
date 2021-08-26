@@ -1,15 +1,17 @@
 package tests.dbtest;
 
-import baseDBEntity.BaseDBTest;
+import baseDBEntity.CustomersTableAdapter;
+import baseEntities.BaseApiTest;
+import models.Customer;
 import org.testng.annotations.Test;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DBTest extends BaseDBTest {
+public class DBTest extends BaseApiTest {
 
     @Test
-    public void connectionTest (){
+    public void connectionTest() {
 
     }
 
@@ -32,6 +34,30 @@ public class DBTest extends BaseDBTest {
         }
         System.out.println("Test is completed...");
     }
+
+    @Test
+    public void fullDBTest() throws SQLException {
+        Customer customer = Customer.builder()
+                .firstname("Anna")
+                .lastname("Grace")
+                .age(26)
+                .email("customer@gmail.com")
+                .build();
+        CustomersTableAdapter customersTableAdapter = new CustomersTableAdapter(dataBaseServices);
+        customersTableAdapter.addCustomer(customer);
+
+        ResultSet rs = customersTableAdapter.getAllCustomers();
+
+        while (rs.next()) {
+            String firstname = rs.getString("firstname");
+            int age = rs.getInt("age");
+
+            System.out.println("firstname " + firstname);
+            System.out.println("age " + age);
+
+        }
+    }
+
     @Test
     public void homeTaskSQLTest() {
         String sql1_1 = "SELECT * FROM Customers WHERE City = 'London';";

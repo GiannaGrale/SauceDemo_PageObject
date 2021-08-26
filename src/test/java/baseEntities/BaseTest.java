@@ -1,5 +1,6 @@
 package baseEntities;
 
+import baseDBEntity.CustomersTableAdapter;
 import core.BrowserService;
 import core.ReadProperties;
 import models.CustomerBuilder;
@@ -10,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
+import services.DataBaseService;
 import utils.Listener;
 
 
@@ -21,6 +23,7 @@ public class BaseTest {
     public ProductBuilder product;
     public CustomerBuilder newCustomer;
     public LoginBuilder login;
+    public DataBaseService dataBaseService;
 
     @BeforeSuite
     public void prepareData() {
@@ -43,6 +46,8 @@ public class BaseTest {
                 .lastName("Surname")
                 .zipcode("294706")
                 .build();
+        dataBaseService = new DataBaseService();
+
     }
 
     @BeforeSuite

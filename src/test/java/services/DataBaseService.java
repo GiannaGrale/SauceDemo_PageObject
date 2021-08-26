@@ -3,6 +3,7 @@ package services;
 import org.testng.log4testng.Logger;
 
 import java.sql.*;
+import java.util.List;
 
 public class DataBaseService {
     public static Logger logger = Logger.getLogger(DataBaseService.class);
@@ -14,7 +15,7 @@ public class DataBaseService {
     Connection connection = null;
     Statement statement = null;
 
-    public DataBaseService () {
+    public DataBaseService() {
         try {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(DB_URL, USER, PSW);
@@ -31,27 +32,28 @@ public class DataBaseService {
         }
     }
 
-    public  Connection getConnection (){
-        return  connection;
+    public Connection getConnection() {
+        return connection;
     }
 
-    public  Statement getStatement (){
+    public Statement getStatement() {
         try {
             if (statement == null) {
                 statement = getConnection().createStatement();
             }
-        }catch (SQLException throwables) {
+        } catch (SQLException throwables) {
             System.out.println((throwables.toString()));
         }
         return statement;
     }
 
-    public void executeSQL (String sql) {
+    public boolean executeSQL(String sql) {
         try {
-            logger.info("Result of the request: " + getStatement().execute(sql));
+            return getStatement().execute(sql);
         } catch (SQLException throwables) {
             System.out.println((throwables.toString()));
         }
+        return false;
     }
 
 
@@ -65,10 +67,10 @@ public class DataBaseService {
     }
 
 
-        public void closeConnection (){
+    public void closeConnection() {
         try {
             connection.close();
-        }catch (SQLException throwables) {
+        } catch (SQLException throwables) {
             logger.info(throwables.toString());
         }
     }
