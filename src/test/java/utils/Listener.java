@@ -14,7 +14,7 @@ public class Listener implements ITestListener {
     @Override
     public void onTestFailure(ITestResult result) {
         Object currentClass = result.getInstance();
-        WebDriver driver = ((BaseTest) currentClass).driver;
+        WebDriver driver = ((baseEntities.BaseTest) currentClass).driver;
         byte[] scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
         saveScreenshot(scrFile);
     }

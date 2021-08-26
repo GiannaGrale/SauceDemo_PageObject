@@ -1,5 +1,6 @@
 package baseEntities;
 
+
 import core.ReadProperties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +21,7 @@ public abstract class BasePage {
 
     public BasePage(WebDriver driver, boolean openPageByURL) {
         this.driver = driver;
-        properties = new ReadProperties();
+        properties = ReadProperties.getInstance();
         PageFactory.initElements(this.driver, this);
 
         if (openPageByURL) {

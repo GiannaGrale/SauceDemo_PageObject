@@ -10,23 +10,22 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 public class BrowserService {
-    private ReadProperties properties = new ReadProperties();
     private WebDriver driver;
 
     public BrowserService() {
-        switch (properties.getBrowser().toLowerCase()) {
+        switch (ReadProperties.getInstance().getBrowserName().toLowerCase()) {
             case "chrome" :
                 WebDriverManager.getInstance(DriverManagerType.CHROME).setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.addArguments("disable-gpu");
                 chromeOptions.addArguments("--start-maximized");
-                chromeOptions.setHeadless(properties.getHeadless());
+                chromeOptions.setHeadless(ReadProperties.getInstance().isHeadless());
                 driver = new ChromeDriver(chromeOptions);
                 break;
             case "firefox" :
                 WebDriverManager.getInstance(DriverManagerType.FIREFOX).setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
-                firefoxOptions.setHeadless(properties.getHeadless());
+                firefoxOptions.setHeadless(ReadProperties.getInstance().isHeadless());
                 driver = new FirefoxDriver(firefoxOptions);
                 break;
             case "edge" :
