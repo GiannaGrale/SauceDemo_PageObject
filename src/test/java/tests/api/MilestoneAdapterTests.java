@@ -4,9 +4,6 @@ import adapters.MilestoneAdapter;
 import adapters.ProjectsAdapter;
 import baseEntities.BaseApiTest;
 import models.Milestone;
-
-import models.Project;
-import models.ProjectTypes;
 import org.testng.annotations.Test;
 
 import java.sql.Timestamp;
@@ -32,22 +29,16 @@ public class MilestoneAdapterTests extends BaseApiTest {
 
     @Test
     public void addMilestoneAdapterTest () {
-        Project project = Project.builder()
-                .name("Anna's project with milestones")
-                .suite_mode(ProjectTypes.SINGLE_SUITE_BASELINES)
-                .build();
-
-        Project milestoneProject = new ProjectsAdapter().add(project);
-        projectID = milestoneProject.getId();
+        projectID = new ProjectsAdapter().projectSearch("Anna's Adapter API test MILESTONES");
 
         Milestone milestone = Milestone.builder()
-                .name("Anna's added adapter milestone")
+                .name("Anna's added new adapter milestone")
                 .description("Hey, I am a milestone")
                 .project_id(projectID)
                 .build();
 
         Milestone addMilestone = new MilestoneAdapter().post(milestone,projectID);
-        milestoneID = addMilestone.getId();
+        milestoneID = new MilestoneAdapter().milestoneSearch("Anna's added  new adapter milestone", projectID);
 
     }
 
