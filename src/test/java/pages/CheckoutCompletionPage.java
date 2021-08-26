@@ -9,6 +9,7 @@ import org.openqa.selenium.support.FindBy;
 
 
 public class CheckoutCompletionPage extends BasePage {
+
     private final static String endpoint = "checkout-complete.html";
 
     @FindBy(className = "complete-header")
