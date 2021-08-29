@@ -1,6 +1,5 @@
 package baseEntities;
 
-import baseDBEntity.CustomersTableAdapter;
 import baseDBEntity.ProjectsTableAdapter;
 import core.ReadProperties;
 import io.restassured.RestAssured;
@@ -12,17 +11,22 @@ import org.testng.annotations.BeforeSuite;
 import services.DataBaseService;
 
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 
 public class BaseApiTest {
     public DB_Project db_project;
     public DB_Project db_project2;
     public DB_Project db_project3;
-
+    public List<DB_Project> projectNames = new ArrayList<>();
     public DataBaseService dataBaseServices;
 
     @BeforeSuite
-    public void setDataBaseServicesForProjects() {
+    public void setDataBaseServicesForProjects() throws SQLException {
         RestAssured.baseURI = ReadProperties.getInstance().getTestRailSite();
         RestAssured.requestSpecification = given()
            .header(HTTP.CONTENT_TYPE, ContentType.JSON)
@@ -51,6 +55,21 @@ public class BaseApiTest {
                 .is_completed(false)
                 .teamSize(8)
                 .build();
+
+        ProjectsTableAdapter projectAdapter = new ProjectsTableAdapter(dataBaseServices);
+        projectAdapter.addProject(db_project);
+        projectAdapter.addProject(db_project2);
+        projectAdapter.addProject(db_project3);
+
+        ResultSet rs = projectAdapter.getNameProject();
+
+        while (rs.next()) {
+            DB_Project project = DB_Project.builder()
+                    .projectName(rs.getString("name"))
+                    .build();
+            projectNames.add(project);
+        }
+
     }
 
     @AfterTest
