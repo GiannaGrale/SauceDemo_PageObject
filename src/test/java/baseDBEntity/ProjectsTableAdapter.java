@@ -1,6 +1,7 @@
 package baseDBEntity;
 
 import models.DB_Project;
+import org.testng.annotations.Test;
 import services.DataBaseService;
 
 import java.sql.ResultSet;
@@ -13,10 +14,11 @@ public class ProjectsTableAdapter {
         this.dataBaseService = dataBaseService;
     }
 
+
     public boolean addProject(DB_Project db_project) {
-        String insertProjectSQL = "INSERT INTO public.projects (" +
+        String insertProjectSQL = String.format("INSERT INTO public.projects (" +
                 "name, is_completed, size)" +
-                "VALUES ('" + db_project.projectName + "', " + db_project.is_completed + ", " + db_project.teamSize + ");";
+                "VALUES ('%s', %b, %d);", db_project.projectName, db_project.is_completed, db_project.teamSize);
         System.out.println(insertProjectSQL);
         return dataBaseService.executeSQL(insertProjectSQL);
 
