@@ -14,7 +14,7 @@ public class DBTest extends BaseApiTest {
     public void connectionTest() {
 
     }
-
+/*
     @Test
     public void firstTest() {
         String sql = "SELECT * FROM public.customers";
@@ -33,9 +33,9 @@ public class DBTest extends BaseApiTest {
             System.out.println(throwables.toString());
         }
         System.out.println("Test is completed...");
-    }
+    }*/
 
-    @Test
+/*    @Test
     public void fullDBTest() throws SQLException {
         Customer customer = Customer.builder()
                 .firstname("Anna")
@@ -56,7 +56,7 @@ public class DBTest extends BaseApiTest {
             System.out.println("age " + age);
 
         }
-    }
+    }*/
 
     @Test
     public void homeTaskSQLTest() {
