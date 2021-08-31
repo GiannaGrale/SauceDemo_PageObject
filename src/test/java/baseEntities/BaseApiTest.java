@@ -29,28 +29,28 @@ public class BaseApiTest {
     public void setDataBaseServicesForProjects() throws SQLException {
         RestAssured.baseURI = ReadProperties.getInstance().getTestRailSite();
         RestAssured.requestSpecification = given()
-           .header(HTTP.CONTENT_TYPE, ContentType.JSON)
-           .auth().preemptive().basic
-                (ReadProperties.getInstance().getLogin(),
-                        ReadProperties.getInstance().getPassword());
+                .header(HTTP.CONTENT_TYPE, ContentType.JSON)
+                .auth().preemptive().basic
+                        (ReadProperties.getInstance().getLogin(),
+                                ReadProperties.getInstance().getPassword());
         dataBaseServices = new DataBaseService();
         ProjectsTableAdapter projectsTableAdapter = new ProjectsTableAdapter(dataBaseServices);
-//        projectsTableAdapter.dropProjectTable();
-     //   projectsTableAdapter.createProjectTable();
+        projectsTableAdapter.dropProjectTable();
+        projectsTableAdapter.createProjectTable();
 
-         db_project = DB_Project.builder()
+        db_project = DB_Project.builder()
                 .projectName("SauceDemo")
                 .is_completed(true)
                 .teamSize(5)
                 .build();
 
-         db_project2 = DB_Project.builder()
+        db_project2 = DB_Project.builder()
                 .projectName("TestRail")
                 .is_completed(false)
                 .teamSize(3)
                 .build();
 
-         db_project3 = DB_Project.builder()
+        db_project3 = DB_Project.builder()
                 .projectName("Qase")
                 .is_completed(false)
                 .teamSize(8)
@@ -73,7 +73,7 @@ public class BaseApiTest {
     }
 
     @AfterTest
-    public  void  tearDown(){
+    public void tearDown() {
         dataBaseServices.closeConnection();
     }
 }
