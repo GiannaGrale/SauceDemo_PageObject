@@ -36,7 +36,7 @@ public class BaseApiTest {
         dataBaseServices = new DataBaseService();
         ProjectsTableAdapter projectsTableAdapter = new ProjectsTableAdapter(dataBaseServices);
 //        projectsTableAdapter.dropProjectTable();
-        projectsTableAdapter.createProjectTable();
+     //   projectsTableAdapter.createProjectTable();
 
          db_project = DB_Project.builder()
                 .projectName("SauceDemo")
