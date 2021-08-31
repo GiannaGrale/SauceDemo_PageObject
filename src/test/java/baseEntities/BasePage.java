@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
 public abstract class BasePage {
+
     protected WebDriver driver;
     protected static int waitForPageLoadingSec = 15;
     protected ReadProperties properties;
@@ -47,6 +48,5 @@ public abstract class BasePage {
         if (!isPageOpenedIndicator) {
             throw new AssertionError("Page was not opened");
         }
-
     }
 }

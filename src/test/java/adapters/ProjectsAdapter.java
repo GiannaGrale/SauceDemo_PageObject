@@ -117,5 +117,13 @@ public class ProjectsAdapter extends BaseAdapter {
                 .extract().response();
         return gson.fromJson(response.asString().trim(), Project.class);
     }
+
+    public int projectSearch(String name) {
+        for (Project expectedProject : get()) {
+            if (expectedProject.getName().equals(name))
+                return expectedProject.getId();
+        }
+        return 0;
+    }
 }
 

@@ -1,10 +1,15 @@
 package tests.api;
 
+import adapters.CasesAdapter;
 import adapters.ProjectsAdapter;
+import adapters.SectionAdapter;
+import adapters.SuitesAdapter;
 import baseEntities.BaseApiTest;
 import endpoints.CasesEndpoints;
+import endpoints.SectionEndpoints;
 import models.Case;
 import models.Project;
+import models.Suites;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
@@ -18,8 +23,11 @@ public class CasesApiTests extends BaseApiTest {
     private int projectID;
     private int suiteID;
     private int sectionID;
+    String projectWithSuite = "Anna's Adapter API test (1 suite)";
+    String projectWithSection = "Anna's Adapter API test (2 cases)";
+    String suiteName = "Test Suite _1";
+    String sectionName = "This is a new section";
 
-    private List<Integer> suiteIDs;
 
     @Test(dependsOnMethods = "addCaseTest")
     public void getOneCaseTest() {
@@ -33,8 +41,9 @@ public class CasesApiTests extends BaseApiTest {
 
     @Test
     public void getCasesTest() {
-        projectID = 18;
-        suiteID = 1;
+        projectID = new ProjectsAdapter().projectSearch(projectWithSuite);
+        suiteID = new SuitesAdapter().suiteSearch(suiteName, projectID);
+
 
         Project project = Project.builder()
                 .name("Anna's API test")
@@ -60,7 +69,8 @@ public class CasesApiTests extends BaseApiTest {
 
     @Test()
     public void addCaseTest() {
-        sectionID = 1;
+        projectID = new ProjectsAdapter().projectSearch(projectWithSection);
+        sectionID = new SectionAdapter().sectionSearch(sectionName, projectID);
         Case cases = Case.builder()
                 .title("Case added by Anna")
                 .type_id(2)
@@ -101,10 +111,13 @@ public class CasesApiTests extends BaseApiTest {
 
     @Test
     public void updateCasesTest() {
-        suiteID = 16;
+        projectID = new ProjectsAdapter().projectSearch(projectWithSuite);
+        suiteID = new SuitesAdapter().suiteSearch(suiteName, projectID);
+
+        String definedCaseID = new CasesAdapter().getStringCaseIDs(suiteID, projectID);
         Case cases = Case.builder()
                 .title("All cases updated by Anna")
-                .case_ids("6, 8")
+                .case_ids(definedCaseID)
                 .build();
 
         given()
@@ -121,9 +134,10 @@ public class CasesApiTests extends BaseApiTest {
 
     @Test
     public void move_cases_to_section_Test() {
-        sectionID = 1;
+        projectID = new ProjectsAdapter().projectSearch(projectWithSection);
+        sectionID = new SectionAdapter().sectionSearch(sectionName, projectID);
         Case cases = Case.builder()
-                .case_ids("4, 5")
+                .case_ids("316, 313")
                 .build();
 
         given()
@@ -149,9 +163,26 @@ public class CasesApiTests extends BaseApiTest {
 
     @Test
     public void copyCasesToSectionTest() {
-        sectionID = 2;
+        projectID = new ProjectsAdapter().projectSearch(projectWithSection);
+        sectionID = new SectionAdapter().sectionSearch(sectionName, projectID);
+        System.out.println(sectionID);
+
+        List<Integer> sectionIDs = given()
+                .when()
+                .get(String.format(SectionEndpoints.GET_SECTIONS, projectID))
+                .then()
+                .log().body()
+                .statusCode(HttpStatus.SC_OK)
+                .extract().jsonPath().get("id");
+
+        sectionID = sectionIDs.get(2);
+        Suites suiteIDs = new SuitesAdapter().getSuite(projectID).get(0);
+        int actualSuiteID = suiteIDs.getId();
+
+        String definedCaseID = new CasesAdapter().getStringCaseIDs(actualSuiteID, projectID);
+
         Case cases = Case.builder()
-                .case_ids("116, 117")
+                .case_ids(definedCaseID)
                 .build();
 
         given()

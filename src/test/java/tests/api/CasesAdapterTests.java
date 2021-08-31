@@ -15,148 +15,152 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
-
 public class CasesAdapterTests extends BaseApiTest {
     private int caseID;
     private int projectID;
     private int suiteID;
     private int sectionID;
+    String suiteName = "Test Suite _1";
+    String sectionName = "This is a new section";
+    String projectNameWithSuites = "Anna's Adapter API test (1 suite)";
+    String projectNameWithSections = "Anna's Adapter API test (2 cases)";
+
 
     @Test
-    public void addProjectWithSection() {
-        Project project = Project.builder()
-                .name("Anna's project with sections")
-                .suite_mode(ProjectTypes.SINGLE_SUITE_MODE)
-                .build();
-
-        Project addedProject = new ProjectsAdapter().add(project);
-        projectID = addedProject.getId();
-        System.out.println(projectID);
-
-        Section section = Section.builder()
-                .name("This is a section")
-                .build();
-        Section addSections = new SectionAdapter().addSection(section, projectID);
-        sectionID = addSections.getId();
-        System.out.println(sectionID);
-    }
-
-    @Test
-    public void addProjectsWithSuites() {
-        Project project = Project.builder()
-                .name("Anna's project with suites")
-                .suite_mode(ProjectTypes.MULTIPLE_SUITE_MODE)
-                .build();
-
-        Project addedProject = new ProjectsAdapter().add(project);
-        projectID = addedProject.getId();
-        System.out.println(projectID);
-
+    public void createSuitesTest() {
+        projectID = new ProjectsAdapter().projectSearch(projectNameWithSuites);
         Suites suites = Suites.builder()
-                .name("This is a suite")
+                .name(suiteName)
                 .build();
         Suites addSuite = new SuitesAdapter().addSuite(suites, projectID);
         suiteID = addSuite.getId();
-        System.out.println(suiteID);
     }
 
-    @Test(dependsOnMethods = "addProjectWithSection")
-    public void addCaseTest() {
+    @Test
+    public void addCaseInSectionTest() {
+        projectID = new ProjectsAdapter().projectSearch(projectNameWithSections);
+
+        Section section = Section.builder()
+                .name(sectionName)
+                .build();
+
+        Section addSection = new SectionAdapter().addSection(section, projectID);
+        sectionID = new SectionAdapter().sectionSearch(sectionName, projectID);
+
         Case cases = Case.builder()
-                .title("This is Anna's case")
-                .type_id(2)
-                .priority_id(3)
+                .title("This is Anna's new case with SECTION")
+                .type_id(CaseTypes.TYPE_AUTOMATED)
+                .priority_id(CasePriority.PRIORITY_MEDIUM)
                 .build();
         Case addCase = new CasesAdapter().add(cases, sectionID);
         caseID = addCase.getId();
         System.out.println(addCase);
     }
 
-
-    @Test(dependsOnMethods = "addCaseTest")
+    @Test(dependsOnMethods = "getHistoryOfCasesTest")
     public void getOneCaseTest() {
         Case oneCase = new CasesAdapter().getOne(caseID);
         System.out.println(oneCase);
     }
 
-
-    @Test(dependsOnMethods = "addCaseTest")
-    public void getHistoryCasesTest() {
+    @Test(dependsOnMethods = "getAllCasesTest")
+    public void getHistoryOfCasesTest() {
         List<Case> historyCases = new CasesAdapter().getHistory(caseID);
         System.out.println(historyCases);
     }
 
-
-    @Test(dependsOnMethods = "addCaseTest")
+    @Test(dependsOnMethods = "getOneCaseTest")
     public void updateCaseTest() {
         Case cases = Case.builder()
                 .title("Case updated by Anna")
-                .type_id(2)
-                .priority_id(2)
+                .type_id(CaseTypes.TYPE_COMPATIBILITY)
+                .priority_id(CasePriority.PRIORITY_CRITICAL)
                 .build();
         Case updateCase = new CasesAdapter().update(cases, caseID);
         Assert.assertEquals("Case updated by Anna", updateCase.getTitle());
     }
 
-    //Hardcoded.Есть трудности здесь.
-    @Test
+    @Test(dependsOnMethods = "createSuitesTest")
     public void getAllCasesTest() {
-         projectID = 124;
-         suiteID = 111;
+        suiteID = new SuitesAdapter().suiteSearch(suiteName, projectID);
         List<Case> allCases = new CasesAdapter().getAll(projectID, suiteID);
-        System.out.println(allCases.get(0));
+        System.out.println(allCases.get(3));
     }
 
-    @Test
+    @Test(dependsOnMethods = "createSuitesTest")
     public void updateCasesTest() {
-        suiteID = 111;
+        suiteID = new SuitesAdapter().suiteSearch(suiteName, projectID);
+
+        String definedCaseID = new CasesAdapter().getStringCaseIDs(suiteID, projectID);
+
         Case updCase = Case.builder()
-                .title("New cases with adapter updated by Anna")
-                .case_ids("85, 86")
-                .type_id(2)
-                .priority_id(2)
+                .title("New UPDATED cases with adapter created by Anna")
+                .case_ids(definedCaseID)
+                .type_id(CaseTypes.TYPE_REGRESSION)
+                .priority_id(CasePriority.PRIORITY_HIGH)
                 .build();
         List<Case> updateCases = new CasesAdapter().updateAll(updCase, suiteID);
     }
 
-    @Test
-    public void move_cases_to_section_Test() {
+
+    @Test(dependsOnMethods = "addCaseInSectionTest")
+    public void cases_to_new_section_Test() {
         List<Integer> sectionIDs = given()
                 .when()
-                .get(String.format(SectionEndpoints.GET_SECTIONS, 124, 111))
+                .get(String.format(SectionEndpoints.GET_SECTIONS, projectID))
                 .then()
                 .log().body()
                 .statusCode(HttpStatus.SC_OK)
                 .extract().jsonPath().get("id");
-        System.out.println(sectionIDs);
 
-        int sectionID = sectionIDs.get(0);
-        System.out.println(sectionID);
+        sectionID = sectionIDs.get(2);
+        Suites suiteIDs = new SuitesAdapter().getSuite(projectID).get(0);
+        int actualSuiteID = suiteIDs.getId();
+
+        String definedCaseID = new CasesAdapter().getStringCaseIDs(actualSuiteID, projectID);
 
         Case cases = Case.builder()
-                .case_ids("101, 102")
+                .case_ids(definedCaseID)
                 .build();
         List<Case> moveCases = new CasesAdapter().moveToSection(cases, sectionID);
     }
 
-    @Test
-    public void copyCases(){
+
+    @Test(dependsOnMethods = "addCaseInSectionTest")
+    public void copyCases() {
         List<Integer> sectionIDs = given()
                 .when()
-                .get(String.format(SectionEndpoints.GET_SECTIONS, 124, 111))
+                .get(String.format(SectionEndpoints.GET_SECTIONS, projectID))
                 .then()
                 .log().body()
                 .statusCode(HttpStatus.SC_OK)
                 .extract().jsonPath().get("id");
-        System.out.println(sectionIDs);
 
-        int sectionID = sectionIDs.get(0);
-        System.out.println(sectionID);
+        sectionID = sectionIDs.get(2);
+        Suites suiteIDs = new SuitesAdapter().getSuite(projectID).get(0);
+        int actualSuiteID = suiteIDs.getId();
+
+        String definedCaseID = new CasesAdapter().getStringCaseIDs(actualSuiteID, projectID);
+
         Case cases = Case.builder()
-                .case_ids("101, 102")
+                .case_ids(definedCaseID)
                 .build();
         List<Case> copyCases = new CasesAdapter().copyCases(cases, sectionID);
 
     }
-}
 
+    @Test(dependsOnMethods = "updateCaseTest")
+    public void deleteCaseTest() {
+        Case deleteCase = new CasesAdapter().delete(caseID);
+    }
+
+    @Test
+    public void deleteCasesTest() {
+        String definedCaseID = new CasesAdapter().getStringCaseIDs(suiteID, projectID);
+
+        Case cases = Case.builder()
+                .case_ids(definedCaseID)
+                .build();
+        Case deleteCases = new CasesAdapter().deleteCases(cases, suiteID, projectID);
+    }
+}

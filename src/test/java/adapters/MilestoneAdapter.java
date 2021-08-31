@@ -7,6 +7,7 @@ import endpoints.ProjectsEndpoints;
 import io.restassured.mapper.ObjectMapperType;
 import io.restassured.response.Response;
 import models.Milestone;
+import models.Project;
 import org.apache.http.HttpStatus;
 
 
@@ -37,7 +38,7 @@ public class MilestoneAdapter extends BaseAdapter {
                 .statusCode(HttpStatus.SC_OK)
                 .extract().response();
 
-        return gson.fromJson(response.asString().trim(), new TypeToken<List<Milestone>>(){
+        return gson.fromJson(response.asString().trim(), new TypeToken<List<Milestone>>() {
         }.getType());
     }
 
@@ -55,7 +56,7 @@ public class MilestoneAdapter extends BaseAdapter {
     }
 
 
-    public Milestone delete (int milestoneID) {
+    public Milestone delete(int milestoneID) {
         Response response = given()
                 .when()
                 .post(String.format(MilestonesEndpoints.DELETE_MILESTONE, milestoneID))
@@ -77,5 +78,13 @@ public class MilestoneAdapter extends BaseAdapter {
                 .statusCode(HttpStatus.SC_OK)
                 .extract().response();
         return gson.fromJson(response.asString().trim(), Milestone.class);
+    }
+
+    public int milestoneSearch(String name, int projectID) {
+        for (Milestone expectedMilestone : getList(projectID)) {
+            if (expectedMilestone.getName().equals(name))
+                return expectedMilestone.getId();
+        }
+        return 0;
     }
 }
