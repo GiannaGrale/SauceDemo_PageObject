@@ -35,7 +35,7 @@ public class BaseApiTest {
                         ReadProperties.getInstance().getPassword());
         dataBaseServices = new DataBaseService();
         ProjectsTableAdapter projectsTableAdapter = new ProjectsTableAdapter(dataBaseServices);
-        projectsTableAdapter.dropProjectTable();
+//        projectsTableAdapter.dropProjectTable();
         projectsTableAdapter.createProjectTable();
 
          db_project = DB_Project.builder()
