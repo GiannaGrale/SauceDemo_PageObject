@@ -15,11 +15,13 @@ public class Project {
     @Expose
     private String announcement;
     @Expose
+    private boolean show_announcement;
    // @SerializedName("isCompleted")
     private boolean is_completed;
     @Expose
     private int suite_mode;
     @Expose
     private int completed_on;
-    private boolean flag;
+    @Expose
+    private boolean url;
 }
